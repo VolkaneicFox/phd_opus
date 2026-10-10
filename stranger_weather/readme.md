@@ -20,7 +20,7 @@ The question - "does it matter" - remains central to the interpretations present
 
 ---
 
-📓 **[Full analysis (notebook)](stranger_weather/git_stranger_Weather.ipynb)**
+📓 **[Full analysis (notebook)](https://github.com/VolkaneicFox/phd_opus/blob/d0657d540a46d8015648ef1b518bcdfae1275429/stranger_weather/git_stranger_Weather.ipynb)**
 📓 **[Panel Regression Module](stranger_weather/git_stranger_Weather.ipynb)**
 📓 **[Conley Standard Errors](stranger_weather/git_stranger_Weather.ipynb)**
 📓 **[Identification of Anomalies](stranger_weather/git_stranger_Weather.ipynb)**
