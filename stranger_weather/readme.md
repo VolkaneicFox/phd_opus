@@ -21,5 +21,6 @@ The question - "does it matter" - remains central to the interpretations present
 ---
 
 📓 **[Full analysis (notebook)](https://github.com/VolkaneicFox/phd_opus/blob/d0657d540a46d8015648ef1b518bcdfae1275429/stranger_weather/git_stranger_Weather.ipynb)**
-📓 **[Panel Regression Module (seasonal)](https://github.com/VolkaneicFox/phd_opus/blob/d0657d540a46d8015648ef1b518bcdfae1275429/stranger_weather/git_stranger_Weather.ipynb)**
-📓 **[Identification of Anomalies](stranger_weather/git_stranger_Weather.ipynb)**
+📓 **[Panel Regression Module (monthly)](https://github.com/VolkaneicFox/phd_opus/blob/d0657d540a46d8015648ef1b518bcdfae1275429/stranger_weather/monthly_regressions.ipynb)**
+📓 **[Panel Regression Module (seasonal)](https://github.com/VolkaneicFox/phd_opus/blob/d0657d540a46d8015648ef1b518bcdfae1275429/stranger_weather/seasonal_regressions.ipynb)**
+📓 **[Identification of Anomalies](https://github.com/VolkaneicFox/phd_opus/blob/d0657d540a46d8015648ef1b518bcdfae1275429/stranger_weather/make_anomalies.py)**
