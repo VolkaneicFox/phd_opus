@@ -1,0 +1,1101 @@
+import pandas as pd
+import geopandas as gpd
+import matplotlib.pyplot as plt
+plt.style.use('seaborn-darkgrid')
+import matplotlib.cm as cm
+import matplotlib.colors as mcolors
+from numpy import log as ln
+import numpy as np
+
+path_prefix=''
+maindf=pd.read_csv(f'{path_prefix}/filename')
+maindf=maindf[(maindf['year']>=1995)&(maindf['year']<=2019)]
+major_counties = {6412: 'Frankfurt',3241: 'Hannover',
+                               9184: 'Munich',   2000: 'Hamburg',
+                               11000: 'Berlin', 14612: 'Dresden', 
+                               5315: 'Cologne', 8111: 'Stuttgart'}
+counties_list=list(maindf['Kreise_Code'].unique())
+
+demap=gpd.read_file(f'{path_prefix}\\official_de_shapefiles.gk3.shape.ebenen\\vg5000_ebenen_1231\\VG5000_KRS.shp',crs=4326)
+demap['Kreise_Code']=demap['ARS'].astype(int)
+demap=demap.to_crs(epsg=3034)
+demap=demap[['Kreise_Code','geometry']]
+class map_counties_climate:
+    
+    def __init__(self,demap=demap,major_counties=major_counties):
+        self.demap=demap
+        self.major_counties = major_counties
+        self.city_labels=[]
+        for code, name in self.major_counties.items():
+            county = self.demap[self.demap['Kreise_Code'] == code]
+            if not county.empty:
+                centroid = county.geometry.centroid.iloc[0]
+                self.city_labels.append((name, centroid.x, centroid.y))
+        
+    def mapping_counties_extremes(self,plot_df,plot_subtitles=[],plot_title='',excess_flag=''):
+        self.plot_df=plot_df
+        self.plot_subtitles=plot_subtitles
+        self.merged_df = self.demap.merge(self.plot_df.reset_index(), on='Kreise_Code')
+        self.merged_df=self.merged_df.dropna()
+        plot_columns = self.plot_df.columns
+        
+        right_cols = plot_columns[0:2]
+        left_cols = plot_columns[2:4]
+        #as_high_low = (len(high_cols)>0) or (len(low_cols)>0)
+        
+        vmin_right=self.merged_df[right_cols].min().min() #if high_cols else None
+        vmax_right =self.merged_df[right_cols].max().max() #if high_cols else None
+    
+        vmin_left = self.merged_df[left_cols].min().min() #if low_cols else None
+        vmax_left = self.merged_df[left_cols].max().max() #if low_cols else None
+    
+        fig, axes = plt.subplots(figsize=(22, 8), nrows=1, ncols=4)
+        
+        for ix, plot_column in enumerate(plot_columns):
+            ax = axes[ix]
+            if ('is_high' in plot_column) and ('tas' in plot_column):
+                cmap_right = 'Reds'
+                cmap = cmap_right
+                vmin, vmax = vmin_right, vmax_right
+                
+            elif ('how_high' in plot_column) and ('tas' in plot_column):
+                cmap_left = 'Reds'
+                cmap = cmap_left
+                vmin, vmax = vmin_left, vmax_left
+            
+            elif ('is_low' in plot_column) and ('tas' in plot_column):
+                cmap_right = 'Greens'
+                cmap = cmap_right
+                vmin, vmax = vmin_right, vmax_right
+                
+            elif ('how_low' in plot_column) and ('tas' in plot_column):
+                cmap_left = 'Greens'
+                cmap = cmap_left
+                vmin, vmax = vmin_left, vmax_left
+            
+            elif ('is_high' in plot_column) and ('prec' in plot_column):
+                cmap_right = 'Blues'
+                cmap = cmap_right
+                vmin, vmax = vmin_right, vmax_right
+                
+            elif ('how_high' in plot_column) and ('prec' in plot_column):
+                cmap_left = 'Blues'
+                cmap = cmap_left
+                vmin, vmax = vmin_left, vmax_left
+                
+            elif ('is_low' in plot_column) and ('prec' in plot_column):
+                cmap_right = 'Oranges'
+                cmap=cmap_right
+                vmin, vmax = vmin_right, vmax_right
+                
+            elif ('how_low' in plot_column) and ('prec' in plot_column):
+                cmap_left = 'Oranges'
+                cmap=cmap_left
+                vmin, vmax = vmin_left, vmax_left
+                
+            self.merged_df.plot(column=plot_column,ax=ax,legend=False,cmap=cmap,edgecolor='lightgrey',linewidth=0.07,
+                           vmin=vmin,vmax=vmax,missing_kwds={'facecolor': 'lightgrey'})
+            
+            ax.set_title(plot_subtitles[ix], fontsize=13, fontweight='bold', pad=10)
+            ax.axis('off')
+            
+            for name, x, y in self.city_labels:
+                ax.annotate(name,xy=(x, y),fontsize=8,fontweight='bold',ha='center',
+                            bbox=dict(boxstyle='round,pad=0.25',facecolor='white',
+                                      edgecolor='black',alpha=0.85))
+
+        if len(right_cols)>0:
+            norm_right = mcolors.Normalize(vmin=vmin_right, vmax=vmax_right)
+            sm_right = cm.ScalarMappable(cmap=cmap_right, norm=norm_right)
+            sm_right._A = []
+
+            # Calculate position spanning axes[0] and axes[1]
+            pos0 = axes[0].get_position()
+            pos1 = axes[1].get_position()
+            cbar_ax_right = fig.add_axes([pos0.x0, 0.08, pos1.x1 - pos0.x0, 0.025])
+            fig.colorbar(sm_right, cax=cbar_ax_right, orientation='horizontal', label='Extremes Count')
+
+    # Add shared horizontal colorbar for Lows (under subplots 2 and 3)
+        if len(left_cols)>0:
+            norm_left = mcolors.Normalize(vmin=vmin_left, vmax=vmax_left)
+            sm_left = cm.ScalarMappable(cmap=cmap_left, norm=norm_left)
+            sm_left._A = []
+
+            # Calculate position spanning axes[2] and axes[3]
+            pos2 = axes[2].get_position()
+            pos3 = axes[3].get_position()
+            cbar_ax_left = fig.add_axes([pos2.x0, 0.08, pos3.x1 - pos2.x0, 0.025])
+            fig.colorbar(sm_left, cax=cbar_ax_left, orientation='horizontal', label=f'Extremes Excess {excess_flag}')
+        
+        plt.suptitle(plot_title,fontsize=15)
+
+        plt.subplots_adjust(bottom=0.18, wspace=0.05)
+        plt.show()
+        
+        
+    def mapping_counties_moments(self,plot_df,plot_subtitles=[],title_text=''):
+        self.plot_df=plot_df
+        self.plot_subtitles=plot_subtitles
+        self.merged_df = self.demap.merge(self.plot_df.reset_index(), on='Kreise_Code')
+        plot_columns = self.plot_df.columns
+        
+        fig, axes = plt.subplots(figsize=(22, 8), nrows=1, ncols=len(plot_subtitles))
+        for ix, plot_column in enumerate(plot_columns):
+            ax = axes[ix]
+            if 'mean_tas' in plot_column:
+                cmap='Reds'
+            elif 'stdev_tas' in plot_column:
+                cmap='RdPu'
+            elif 'mean_prec' in plot_column:
+                cmap='Blues'
+            elif 'stdev_prec' in plot_column:
+                cmap='GnBu'
+            vmin,vmax=self.merged_df[plot_column].min(),self.merged_df[plot_column].max()
+            self.merged_df.plot(column=plot_column,ax=ax,legend=False,cmap=cmap,edgecolor='k',linewidth=0.3,
+                           vmin=vmin,vmax=vmax,missing_kwds={'facecolor': 'lightgrey'})
+            
+            ax.set_title(plot_subtitles[ix], fontsize=13, fontweight='bold', pad=10)
+            ax.axis('off')
+            
+            for name, x, y in self.city_labels:
+                ax.annotate(name,xy=(x, y),fontsize=8,fontweight='bold',ha='center',
+                            bbox=dict(boxstyle='round,pad=0.25',facecolor='white',
+                                      edgecolor='black',alpha=0.85))
+                
+            norm = mcolors.Normalize(vmin=vmin, vmax=vmax)
+            sm = cm.ScalarMappable(cmap=cmap, norm=norm)
+            sm._A = []  # Dummy array required for ScalarMappable
+
+            # shrink=0.65 keeps the colorbar shorter than the full width of the map
+            # pad=0.04 controls vertical distance below the subplot
+            cbar = fig.colorbar(sm, ax=ax, orientation='horizontal', shrink=0.65, pad=0.04, aspect=15)
+            cbar.ax.tick_params(labelsize=9)
+                
+        plt.subplots_adjust(bottom=0.18, wspace=0.05)
+        plt.show()
+        
+    def mapping_counties_moment(self, plot_df, plot_subtitles=[], colors='RdPu',figsize=(22,24),vmin=False,vmax=False):
+
+        self.plot_df = plot_df
+        self.plot_subtitles = plot_subtitles
+        self.merged_df = self.demap.merge(self.plot_df.reset_index(), on='Kreise_Code')
+        plot_columns = self.plot_df.columns
+        
+        if vmin:
+            vmin=vmin
+        else:
+            vmin = self.merged_df[plot_columns].min().min()
+        if vmax:
+            vmax=vmax
+        else:
+            vmax = self.merged_df[plot_columns].max().max()
+
+        fig, axes = plt.subplots(figsize=figsize, nrows=1, ncols=len(plot_subtitles))
+        for ix, plot_column in enumerate(plot_columns):
+            ax = axes[ix]
+            self.merged_df.plot(column=plot_column, ax=ax, legend=False, cmap=colors,
+                                 edgecolor='lightgrey', linewidth=0.029,
+                                 vmin=vmin, vmax=vmax,
+                                 missing_kwds={'facecolor': 'black'})
+
+            ax.set_title(plot_subtitles[ix], fontsize=figsize[0]-3, fontweight='bold', pad=10)
+            ax.axis('off')
+
+            for name, x, y in self.city_labels:
+                ax.annotate(name, xy=(x, y), fontsize=8, fontweight='bold', ha='center',
+                            bbox=dict(boxstyle='round,pad=0.25', facecolor='white',
+                                      edgecolor='black', alpha=0.30))
+
+        norm = mcolors.Normalize(vmin=vmin, vmax=vmax)
+        sm = cm.ScalarMappable(cmap=colors, norm=norm)
+        sm._A = []  # dummy array required for ScalarMappable
+
+        # attach colorbar explicitly to all four axes so it spans/centers correctly
+        cbar = fig.colorbar(sm, ax=axes.tolist(), orientation='horizontal',
+                             shrink=0.65, pad=0.08, aspect=30)
+        cbar.ax.tick_params(labelsize=9)
+
+        plt.show()
+        
+    def periodly_time_series(self, plot_df, plot_col, period_flag,title_text='',figsize=(22,24)):
+        major_counties = list(self.major_counties.keys())
+        self.plot_df = plot_df[plot_df['Kreise_Code'].isin(major_counties)].copy()
+
+        if period_flag == 'month':
+            period_range = range(1, 13)
+            nrows, ncols = 3, 4
+            period_labels = ['Jan','Feb','Mar','Apr','May','Jun',
+                              'Jul','Aug','Sep','Oct','Nov','Dec']
+        elif period_flag == 'season':
+            period_range = range(1, 5)
+            nrows, ncols = 2, 2
+            period_labels = ['Winter', 'Spring', 'Summer', 'Autumn']
+        else:
+            raise ValueError("period_flag must be 'month' or 'season'")
+
+        fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=figsize)
+        axes = axes.flatten()  # so we can index with a single integer regardless of grid shape
+
+        for period in period_range:
+            ax = axes[period - 1]
+            for county in major_counties:
+                temp_df = self.plot_df[
+                    (self.plot_df[period_flag] == period) &
+                    (self.plot_df['Kreise_Code'] == county)
+                ][['year', plot_col]].copy()
+                temp_df = temp_df.set_index('year').sort_index()
+
+                ax.plot(temp_df.index, temp_df[plot_col], marker='o', markersize=3,
+                        label=self.major_counties[county])
+
+            ax.set_title(period_labels[period - 1], fontsize=16, fontweight='bold')
+            ax.set_xlabel('')
+            ax.tick_params(axis='x', rotation=45, labelsize=12)
+            ax.tick_params(axis='y', labelsize=16)
+
+        # turn off any unused subplot axes (e.g. if grid has more slots than periods)
+        for extra_ax in axes[len(list(period_range)):]:
+            extra_ax.axis('off')
+
+        # single shared legend, built from the last populated axis's handles
+        handles, labels = axes[list(period_range)[-1] - 1].get_legend_handles_labels()
+        fig.legend(handles, labels, loc='lower center', ncol=min(len(major_counties), 6),
+                   bbox_to_anchor=(0.5, -0.06), fontsize=18)
+
+        fig.suptitle(title_text, fontsize=18, fontweight='bold', y=1.01)
+        plt.tight_layout()
+        plt.show()
+
+mapping_moments=map_counties_climate()
+
+
+def make_descriptive_tables(table,round_level=2):
+    ncols,nrows=table.shape[1],table.shape[0]
+    feature_names={'mean':'mean','std':'std. dev',"min":'min','max':'max'}
+    print('\\begin{table}[ht]')
+    print('  \\centering')
+    print('  \\caption{WRITE CAPTION}')
+    print('  \\label{tab:write_label}')
+    
+    # Column setup: Left align first column, center the rest
+    col_config = 'l' + 'c' * ncols
+    print('  \\begin{tabular}{' + col_config + '}')
+    print('    \\toprule')
+    
+    header = 'Variable'
+    for i in range(ncols):
+        header += f' & ({i+1})'
+    print(f'    {header} \\\\')
+    print('    \\midrule')
+    for feature in ['mean','std','min','max']:
+        line=feature_names[feature]
+        for value in table.loc[feature].values:
+            value=str(np.round(value,round_level))
+            line=line+'&'+value
+        print(line+'\\\\')
+
+mn_moments=maindf[['mn_stdev_tas_type1','exmn_tas_stdev_f1','exmn_tas_stdev_f2','Kreise_Code']].copy()
+mn_moments=mn_moments.groupby('Kreise_Code').mean()
+print('Fig 1. Standard Deviations of Counties')
+mapping_moments.mapping_counties_moment(plot_df=mn_moments,figsize=(14,6),
+                                        plot_subtitles=['Intra-Annual Temperature Variability °C \n (month)',
+                                                                           'Intra-Annual Temperature Variability °C \n (month, ex-tails, fixed history)',
+                                                                           'Intra-Annual Temperature Variability °C \n (month, ex-tails, moving history)'])
+
+climate_cols=['mn_stdev_tas_type1','exmn_tas_stdev_f1','exmn_tas_stdev_f2']
+corrs=[]
+for climate_col in climate_cols:
+    temp_df=pd.DataFrame()
+    for county in counties_list:
+        temp = maindf[maindf['Kreise_Code']==county][['year',climate_col,'ln_gdppc.d1']].set_index('year')
+        corr_val = temp.corr(method='spearman').values[0,1]
+        temp_df.loc[county,climate_col]=corr_val
+    corrs.append(temp_df)
+corr_df=pd.concat(corrs,axis=1).reset_index().rename(columns={'index':'Kreise_Code'}).set_index('Kreise_Code')
+mapping_moments.mapping_counties_moment(plot_df=corr_df,colors='RdYlGn',vmin=-0.70,vmax=0.70,
+                                        figsize=(16,8),plot_subtitles=['Intra-annual Variability °C \n (month)',
+                                                                       'Intra-annual Variability (ex-tails) °C \n (month, fixed)',
+                                                                       'Intra-annual Variability (ex-tails) °C \n (month, moving)'])
+
+sn_moments=maindf[['sn_stdev_tas_type1','exsn_tas_stdev_f1','exsn_tas_stdev_f2','Kreise_Code']].copy()
+sn_moments=sn_moments.groupby('Kreise_Code').mean()
+print('Fig 1. Standard Deviations of Counties')
+mapping_moments.mapping_counties_moment(plot_df=sn_moments,figsize=(14,6),plot_subtitles=['Intra-Annual Temperature Variability °C \n (season)',
+                                                                           'Intra-Annual Temperature Variability °C \n (season, ex-tails, fixed history)',
+                                                                           'Intra-Annual Temperature Variability °C \n (season, ex-tails, moving history)',])
+
+climate_cols=['sn_stdev_tas_type1','exsn_tas_stdev_f1','exsn_tas_stdev_f2']
+corrs=[]
+for climate_col in climate_cols:
+    temp_df=pd.DataFrame()
+    for county in counties_list:
+        temp = maindf[maindf['Kreise_Code']==county][['year',climate_col,'ln_gdppc.d1']].set_index('year')
+        corr_val = temp.corr(method='spearman').values[0,1]
+        temp_df.loc[county,climate_col]=corr_val
+    corrs.append(temp_df)
+corr_df=pd.concat(corrs,axis=1).reset_index().rename(columns={'index':'Kreise_Code'}).set_index('Kreise_Code')
+mapping_moments.mapping_counties_moment(plot_df=corr_df,colors='RdYlGn',vmin=-0.70,vmax=0.70,
+                                        figsize=(16,8),plot_subtitles=['Intra-annual Variability °C \n (season)',
+                                                                       'Intra-annual Variability (ex-tails) °C \n (season, fixed)',
+                                                                       'Intra-annual Variability (ex-tails) °C \n (season, moving)'])
+
+plot_cols = {'sn_stdev_tas_type1': 'Intra-Annual Seasonal Temperature (°C) Variability',
+             'exsn_tas_stdev_f1': 'Intra-Annual Seasonal Temperature (°C) Variability \n (ex-tails, fixed)',
+             'exsn_tas_stdev_f2': 'Intra-Annual Seasonal Temperature (°C) Variability \n (ex-tails, moving)'}
+
+stdevs = maindf[['year', 'Kreise_Code'] + list(plot_cols.keys())].copy()
+DE_mean = stdevs.groupby('year').mean(numeric_only=True)
+colours = ['darkgrey', 'orange', 'green', 'purple', 'red', 'darkorange', 'blue','cyan']
+
+stdevs = stdevs[stdevs['Kreise_Code'].isin(list(major_counties.keys()))]
+
+fig, axes = plt.subplots(ncols=3, nrows=1, figsize=(22, 6))
+
+for ax_ix, col in enumerate(plot_cols):
+    for colour_ix, county in enumerate(major_counties):
+        county_df = stdevs[stdevs['Kreise_Code'] == county][['year', col]].set_index('year')
+        axes[ax_ix].plot(county_df.index, county_df[col], color=colours[colour_ix],
+                          label=major_counties[county], linewidth=1.5)
+    
+    # national average reference line
+    axes[ax_ix].plot(DE_mean.index, DE_mean[col], color='black', linestyle='--',
+                      linewidth=2, label='DE Average')
+    
+    axes[ax_ix].set_title(plot_cols[col], fontsize=16, fontweight='bold')
+    axes[ax_ix].set_xlabel('')
+    axes[ax_ix].set_ylabel('Temp °C')
+    axes[ax_ix].tick_params(axis='x', rotation=45, labelsize=12)
+    axes[ax_ix].tick_params(axis='y', labelsize=16)
+# single shared legend at the bottom, built from the last axis's handles
+handles, labels = axes[-1].get_legend_handles_labels()
+fig.legend(handles, labels, loc='lower center', ncol=len(major_counties) + 1,
+           bbox_to_anchor=(0.5, -0.05),frameon=False,fontsize=14)
+
+plt.tight_layout()
+plt.subplots_adjust(bottom=0.15)
+plt.show()
+
+plot_cols = {'mn_stdev_tas_type1': 'Intra-Annual Monthly Temperature (°C) Variability',
+             'exmn_tas_stdev_f1': 'Intra-Annual Monthly Temperature (°C) Variability \n (ex-tails, fixed)',
+             'exmn_tas_stdev_f2': 'Intra-Annual Monthly Temperature (°C) Variability \n (ex-tails, moving)'}
+
+stdevs = maindf[['year', 'Kreise_Code'] + list(plot_cols.keys())].copy()
+DE_mean = stdevs.groupby('year').mean(numeric_only=True)
+
+
+colours = ['darkgrey', 'orange', 'green', 'purple', 'red', 'darkorange', 'blue','cyan']
+
+stdevs = stdevs[stdevs['Kreise_Code'].isin(list(major_counties.keys()))]
+
+fig, axes = plt.subplots(ncols=3, nrows=1, figsize=(22, 6))
+
+for ax_ix, col in enumerate(plot_cols):
+    for colour_ix, county in enumerate(major_counties):
+        county_df = stdevs[stdevs['Kreise_Code'] == county][['year', col]].set_index('year')
+        axes[ax_ix].plot(county_df.index, county_df[col], color=colours[colour_ix],
+                          label=major_counties[county], linewidth=1.5)
+    
+    # national average reference line
+    axes[ax_ix].plot(DE_mean.index, DE_mean[col], color='black', linestyle='--',
+                      linewidth=2, label='DE Average')
+    
+    axes[ax_ix].set_title(plot_cols[col], fontsize=16, fontweight='bold')
+    axes[ax_ix].set_xlabel('')
+    axes[ax_ix].set_ylabel('Temp °C')
+    axes[ax_ix].tick_params(axis='x', rotation=45, labelsize=12)
+    axes[ax_ix].tick_params(axis='y', labelsize=16)
+# single shared legend at the bottom, built from the last axis's handles
+handles, labels = axes[-1].get_legend_handles_labels()
+fig.legend(handles, labels, loc='lower center', ncol=len(major_counties) + 1,
+           bbox_to_anchor=(0.5, -0.05),frameon=False,fontsize=14)
+
+plt.tight_layout()
+plt.subplots_adjust(bottom=0.15)
+plt.show()
+
+mn_moments=maindf[['mn_stdev_prec_type1','exmn_prec_stdev_f1','exmn_prec_stdev_f2','Kreise_Code']].copy()
+mn_moments=mn_moments.groupby('Kreise_Code').mean()
+mapping_moments.mapping_counties_moment(plot_df=mn_moments,figsize=(14,6),colors="YlGn",
+                                        plot_subtitles=['Intra-Annual Precipitation Variability mm \n (month)',
+                                                                           'Intra-Annual Precipitation Variability mm \n (month, ex-tails, fixed history)',
+                                                                           'Intra-Annual Precipitation Variability mm \n (month, ex-tails, moving history)'])
+
+sn_moments=maindf[['sn_stdev_prec_type1','exsn_prec_stdev_f1','exsn_prec_stdev_f2','Kreise_Code']].copy()
+sn_moments=sn_moments.groupby('Kreise_Code').mean()
+mapping_moments.mapping_counties_moment(plot_df=sn_moments,figsize=(14,6),colors="YlGn",
+                                        plot_subtitles=['Intra-Annual Precipitation Variability mm \n (season)',
+                                                                           'Intra-Annual Precipitation Variability mm \n (season, ex-tails, fixed history)',
+                                                                           'Intra-Annual Precipitation Variability mm \n (season, ex-tails, moving history)'])
+
+climate_cols=['mn_stdev_prec_type1','exmn_prec_stdev_f1','exmn_prec_stdev_f2']
+corrs=[]
+for climate_col in climate_cols:
+    temp_df=pd.DataFrame()
+    for county in counties_list:
+        temp = maindf[maindf['Kreise_Code']==county][['year',climate_col,'ln_gdppc.d1']].set_index('year')
+        corr_val = temp.corr(method='spearman').values[0,1]
+        temp_df.loc[county,climate_col]=corr_val
+    corrs.append(temp_df)
+corr_mn_df=pd.concat(corrs,axis=1).reset_index().rename(columns={'index':'Kreise_Code'}).set_index('Kreise_Code')
+mapping_moments.mapping_counties_moment(plot_df=corr_mn_df,colors='RdYlGn',
+                                        vmin=-0.50,vmax=0.65,
+                                        figsize=(16,8),plot_subtitles=['Intra-annual Variability mm \n (month)',
+                                                                       'Intra-annual Variability (ex-tails) mm \n (month, fixed)',
+                                                                       'Intra-annual Variability (ex-tails) mm \n (month, moving)'])
+
+climate_cols=['sn_stdev_prec_type1','exsn_prec_stdev_f1','exsn_prec_stdev_f2']
+corrs=[]
+for climate_col in climate_cols:
+    temp_df=pd.DataFrame()
+    for county in counties_list:
+        temp = maindf[maindf['Kreise_Code']==county][['year',climate_col,'ln_gdppc.d1']].set_index('year')
+        corr_val = temp.corr(method='spearman').values[0,1]
+        temp_df.loc[county,climate_col]=corr_val
+    corrs.append(temp_df)
+corr_sn_df=pd.concat(corrs,axis=1).reset_index().rename(columns={'index':'Kreise_Code'}).set_index('Kreise_Code')
+mapping_moments.mapping_counties_moment(plot_df=corr_sn_df,colors='RdYlGn',
+                                       vmin=-0.50,vmax=0.65,
+                                        figsize=(16,8),plot_subtitles=['Intra-annual Variability mm \n (season)',
+                                                                       'Intra-annual Variability (ex-tails) mm \n (season, fixed)',
+                                                                       'Intra-annual Variability (ex-tails) mm \n (season, moving)'])
+
+plot_cols = {'sn_stdev_prec_type1': 'Intra-Annual Seasonal Precipitation (mm) Variability',
+             'exsn_prec_stdev_f1': 'Intra-Annual Seasonal Precipitation (mm) Variability \n (ex-tails, fixed)',
+             'exsn_prec_stdev_f2': 'Intra-Annual Seasonal Precipitation (mm) Variability \n (ex-tails, moving)'}
+
+stdevs = maindf[['year', 'Kreise_Code'] + list(plot_cols.keys())].copy()
+DE_mean = stdevs.groupby('year').mean(numeric_only=True)
+
+colours = ['darkgrey', 'orange', 'green', 'purple', 'red', 'darkorange', 'blue','cyan']
+
+stdevs = stdevs[stdevs['Kreise_Code'].isin(list(major_counties.keys()))]
+
+fig, axes = plt.subplots(ncols=3, nrows=1, figsize=(22, 6))
+
+for ax_ix, col in enumerate(plot_cols):
+    for colour_ix, county in enumerate(major_counties):
+        county_df = stdevs[stdevs['Kreise_Code'] == county][['year', col]].set_index('year')
+        axes[ax_ix].plot(county_df.index, county_df[col], color=colours[colour_ix],
+                          label=major_counties[county], linewidth=1.5)
+    
+    # national average reference line
+    axes[ax_ix].plot(DE_mean.index, DE_mean[col], color='black', linestyle='--',
+                      linewidth=2, label='DE Average')
+    
+    axes[ax_ix].set_title(plot_cols[col], fontsize=16, fontweight='bold')
+    axes[ax_ix].set_xlabel('')
+    axes[ax_ix].set_ylabel('Prec mm')
+    axes[ax_ix].tick_params(axis='x', rotation=45, labelsize=12)
+    axes[ax_ix].tick_params(axis='y', labelsize=16)
+# single shared legend at the bottom, built from the last axis's handles
+handles, labels = axes[-1].get_legend_handles_labels()
+fig.legend(handles, labels, loc='lower center', ncol=len(major_counties) + 1,
+           bbox_to_anchor=(0.5, -0.05),frameon=False,fontsize=14)
+
+plt.tight_layout()
+plt.subplots_adjust(bottom=0.15)
+plt.show()
+
+plot_cols = {'mn_stdev_prec_type1': 'Intra-Annual Monthly Precipitation (mm) Variability',
+             'exmn_prec_stdev_f1': 'Intra-Annual Monthly Precipitation (mm) Variability \n (ex-tails, fixed)',
+             'exmn_prec_stdev_f2': 'Intra-Annual Monthly Precipitation (mm) Variability \n (ex-tails, moving)'}
+
+stdevs = maindf[['year', 'Kreise_Code'] + list(plot_cols.keys())].copy()
+DE_mean = stdevs.groupby('year').mean(numeric_only=True)
+
+colours = ['darkgrey', 'orange', 'green', 'purple', 'red', 'darkorange', 'blue','cyan']
+
+stdevs = stdevs[stdevs['Kreise_Code'].isin(list(major_counties.keys()))]
+
+fig, axes = plt.subplots(ncols=3, nrows=1, figsize=(22, 6))
+
+for ax_ix, col in enumerate(plot_cols):
+    for colour_ix, county in enumerate(major_counties):
+        county_df = stdevs[stdevs['Kreise_Code'] == county][['year', col]].set_index('year')
+        axes[ax_ix].plot(county_df.index, county_df[col], color=colours[colour_ix],
+                          label=major_counties[county], linewidth=1.5)
+    
+    # national average reference line
+    axes[ax_ix].plot(DE_mean.index, DE_mean[col], color='black', linestyle='--',
+                      linewidth=2, label='DE Average')
+    
+    axes[ax_ix].set_title(plot_cols[col], fontsize=16, fontweight='bold')
+    axes[ax_ix].set_xlabel('')
+    axes[ax_ix].set_ylabel('Prec mm')
+    axes[ax_ix].tick_params(axis='x', rotation=45, labelsize=12)
+    axes[ax_ix].tick_params(axis='y', labelsize=16)
+# single shared legend at the bottom, built from the last axis's handles
+handles, labels = axes[-1].get_legend_handles_labels()
+fig.legend(handles, labels, loc='lower center', ncol=len(major_counties) + 1,
+           bbox_to_anchor=(0.5, -0.05),frameon=False,fontsize=14)
+
+plt.tight_layout()
+plt.subplots_adjust(bottom=0.15)
+plt.show()
+
+mn_is_moments=maindf[['an_mn_tas_is_high_f1','an_mn_tas_is_high_f2','Kreise_Code']].copy()
+mn_is_moments=mn_is_moments.groupby('Kreise_Code').mean()
+mapping_moments.mapping_counties_moment(plot_df=mn_is_moments,figsize=(14,6),
+                                        #vmax=2,vmin=1,
+                                        plot_subtitles=['a) Surprise Heat Events Exceeding 95th Percentile \n (month, fixed)',
+                                                        'b) Surprise Heat Events Exceeding 95th Percentile \n (month, moving)'])
+
+
+mn_moments=maindf[['an_mn_tas_how_high_f1','an_mn_tas_how_high_f2',
+                   'mn0_tas_how_high_f1','mn0_tas_how_high_f2','Kreise_Code']].copy()
+mn_moments=mn_moments.groupby('Kreise_Code').mean()
+mapping_moments.mapping_counties_moment(plot_df=mn_moments,figsize=(14,6),
+                                        #vmax=2,vmin=1,
+                                        plot_subtitles=['a) Surprise Heat °C >= 95th Percentile \n (month, fixed)',
+                                                        'b) Surprise Heat °C >= 95th Percentile \n (month, moving)',
+                                                        'c) Surprise Heat °C >= 95th Percentile \n (month, fixed, inc. nulls)',
+                                                        'd) Surprise Heat °C >= 95th Percentile \n (month, moving, inc. nulls)'])
+
+sn_is_moments=maindf[['an_sn_tas_is_high_f1','an_sn_tas_is_high_f2','Kreise_Code']].copy()
+sn_is_moments=sn_is_moments.groupby('Kreise_Code').mean()
+mapping_moments.mapping_counties_moment(plot_df=sn_is_moments,figsize=(14,6),
+                                        #vmin=1,vmax=2,
+                                        plot_subtitles=['a) Surprise Heat Events Exceeding 95th Percentile \n (season, fixed)',
+                                                        'b) Surprise Heat Events Exceeding 95th Percentile \n (season, moving)'])
+sn_how_moments=maindf[['an_sn_tas_how_high_f1','an_sn_tas_how_high_f2','Kreise_Code',
+                   'sn0_tas_how_high_f1','sn0_tas_how_high_f2']].copy()
+sn_how_moments=sn_how_moments.groupby('Kreise_Code').mean()
+mapping_moments.mapping_counties_moment(plot_df=sn_how_moments,figsize=(14,6),
+                                        #vmin=1,vmax=2,
+                                        plot_subtitles=['a) Surprise Heat >= 95th Percentile °C \n (season, fixed)',
+                                                        'b) Surprise Heat >= 95th Percentile °C \n (season, moving)',
+                                                        'c) Surprise Heat >= 95th Percentile °C \n (season, fixed, inc. nulls)',
+                                                        'd) Surprise Heat >= 95th Percentile °C \n (season, moving, inc. nulls)'])
+
+plot_cols = {'an_sn_tas_how_high_f1': 'a) Surprise Heat >= 95th Percentile °C (season, fixed)',
+             'an_sn_tas_how_high_f2': 'b) Surprise Heat >= 95th Percentile °C \n (season, moving)',
+             'sn0_tas_how_high_f1': 'c) Surprise Heat >= 95th Percentile °C \n (season, fixed, inc. null)',
+             'sn0_tas_how_high_f2': 'd) Surprise Heat >= 95th Percentile °C \n (season, moving, inc. null)'}
+
+stdevs = maindf[['year', 'Kreise_Code'] + list(plot_cols.keys())].copy()
+DE_mean = stdevs.groupby('year').mean(numeric_only=True)
+
+major_counties = {6412: 'Frankfurt', 3241: 'Hannover',
+                  9184: 'Munich',   2000: 'Hamburg',
+                  11000: 'Berlin',  14612: 'Dresden',
+                  5315: 'Cologne', 8111: 'Stuttgart'}
+colours = ['darkgrey', 'orange', 'green', 'purple', 'red', 'darkorange', 'blue', 'cyan']
+
+stdevs = stdevs[stdevs['Kreise_Code'].isin(list(major_counties.keys()))]
+
+fig, axes = plt.subplots(ncols=2, nrows=2, figsize=(18, 12))
+axes = axes.flatten()  # 2x2 array -> 1D, so axes[0..3] indexing works
+
+for ax_ix, col in enumerate(plot_cols):
+    for colour_ix, county in enumerate(major_counties):
+        county_df = stdevs[stdevs['Kreise_Code'] == county][['year', col]].set_index('year')
+        axes[ax_ix].plot(county_df.index, county_df[col], color=colours[colour_ix],
+                          label=major_counties[county], linewidth=1.5)
+    
+    # national average reference line
+    axes[ax_ix].plot(DE_mean.index, DE_mean[col], color='black', linestyle='--',
+                      linewidth=2, label='DE Average')
+    
+    axes[ax_ix].set_title(plot_cols[col], fontsize=14, fontweight='bold')
+    axes[ax_ix].set_xlabel('')
+    axes[ax_ix].set_ylabel('Temp °C <= 5th Percentile')
+    axes[ax_ix].tick_params(axis='x', rotation=45, labelsize=11)
+    axes[ax_ix].tick_params(axis='y', labelsize=13)
+
+# single shared legend at the bottom, built from the last axis's handles
+handles, labels = axes[-1].get_legend_handles_labels()
+fig.legend(handles, labels, loc='lower center', ncol=len(major_counties) + 1,
+           bbox_to_anchor=(0.5, -0.03), frameon=False, fontsize=13)
+
+plt.tight_layout()
+plt.subplots_adjust(bottom=0.1)
+plt.show()
+
+plot_cols = {'an_mn_tas_how_high_f1': 'a) Surprise Heat >= 95th Percentile °C (month, fixed)',
+             'an_mn_tas_how_high_f2': 'b) Surprise Heat >= 95th Percentile °C (month, moving)',
+             'mn0_tas_how_high_f1': 'c) Surprise Heat >= 95th Percentile °C (month, fixed, inc. null)',
+             'mn0_tas_how_high_f2': 'd) Surprise Heat >= 95th Percentile °C (month, moving, inc. null)'}
+
+stdevs = maindf[['year', 'Kreise_Code'] + list(plot_cols.keys())].copy()
+DE_mean = stdevs.groupby('year').mean(numeric_only=True)
+
+major_counties = {6412: 'Frankfurt', 3241: 'Hannover',
+                  9184: 'Munich',   2000: 'Hamburg',
+                  11000: 'Berlin',  14612: 'Dresden',
+                  5315: 'Cologne', 8111: 'Stuttgart'}
+colours = ['darkgrey', 'orange', 'green', 'purple', 'red', 'darkorange', 'blue', 'cyan']
+
+stdevs = stdevs[stdevs['Kreise_Code'].isin(list(major_counties.keys()))]
+
+fig, axes = plt.subplots(ncols=2, nrows=2, figsize=(18, 12))
+axes = axes.flatten()  # 2x2 array -> 1D, so axes[0..3] indexing works
+
+for ax_ix, col in enumerate(plot_cols):
+    for colour_ix, county in enumerate(major_counties):
+        county_df = stdevs[stdevs['Kreise_Code'] == county][['year', col]].set_index('year')
+        axes[ax_ix].plot(county_df.index, county_df[col], color=colours[colour_ix],
+                          label=major_counties[county], linewidth=1.5)
+    
+    # national average reference line
+    axes[ax_ix].plot(DE_mean.index, DE_mean[col], color='black', linestyle='--',
+                      linewidth=2, label='DE Average')
+    
+    axes[ax_ix].set_title(plot_cols[col], fontsize=14, fontweight='bold')
+    axes[ax_ix].set_xlabel('')
+    axes[ax_ix].set_ylabel('Temp °C <= 5th Percentile')
+    axes[ax_ix].tick_params(axis='x', rotation=45, labelsize=11)
+    axes[ax_ix].tick_params(axis='y', labelsize=13)
+
+# single shared legend at the bottom, built from the last axis's handles
+handles, labels = axes[-1].get_legend_handles_labels()
+fig.legend(handles, labels, loc='lower center', ncol=len(major_counties) + 1,
+           bbox_to_anchor=(0.5, -0.03), frameon=False, fontsize=13)
+
+plt.tight_layout()
+plt.subplots_adjust(bottom=0.1)
+plt.show()
+
+climate_cols=['an_mn_tas_how_high_f1','an_mn_tas_how_high_f2','mn0_tas_how_high_f1','mn0_tas_how_high_f2']
+corrs=[]
+for climate_col in climate_cols:
+    temp_df=pd.DataFrame()
+    for county in counties_list:
+        temp = maindf[maindf['Kreise_Code']==county][['year',climate_col,'ln_gdppc.d1']].set_index('year')
+        corr_val = temp.corr(method='spearman').values[0,1]
+        temp_df.loc[county,climate_col]=corr_val
+    corrs.append(temp_df)
+corr_df_warm_mn=pd.concat(corrs,axis=1).reset_index().rename(columns={'index':'Kreise_Code'}).set_index('Kreise_Code')
+mapping_moments.mapping_counties_moment(plot_df=corr_df_warm_mn,colors='RdYlGn',vmin=-0.73,vmax=0.73,
+                                        figsize=(16,8),plot_subtitles=['a) Surprise Heat °C \n (month, fixed)',
+                                                                       'b) Surprise Heat °C \n (month, moving)',
+                                                                      'c) Surprise Heat °C \n (month, fixed, inc. null)',
+                                                                       'd) Surprise Heat °C \n (month, moving, inc. null)'])
+
+climate_cols=['an_sn_tas_how_high_f1','an_sn_tas_how_high_f2','sn0_tas_how_high_f1','sn0_tas_how_high_f2']
+corrs=[]
+for climate_col in climate_cols:
+    temp_df=pd.DataFrame()
+    for county in counties_list:
+        temp = maindf[maindf['Kreise_Code']==county][['year',climate_col,'ln_gdppc.d1']].set_index('year')
+        corr_val = temp.corr(method='spearman').values[0,1]
+        temp_df.loc[county,climate_col]=corr_val
+    corrs.append(temp_df)
+corr_df_warm_sn=pd.concat(corrs,axis=1).reset_index().rename(columns={'index':'Kreise_Code'}).set_index('Kreise_Code')
+mapping_moments.mapping_counties_moment(plot_df=corr_df_warm_sn,colors='RdYlGn',vmin=-0.73,vmax=0.73,
+                                        figsize=(16,8),plot_subtitles=['a) Surprise Heat °C \n (season, fixed)',
+                                                                       'b) Surprise Heat °C \n (season, moving)',
+                                                                      'c) Surprise Heat °C \n (season, fixed, inc. null)',
+                                                                       'd) Surprise Heat °C \n (season, moving, inc. null)'])
+mn_is_moments=maindf[['an_mn_tas_is_low_f1','an_mn_tas_is_low_f2','Kreise_Code']].copy()
+mn_is_moments=mn_is_moments.groupby('Kreise_Code').mean()
+mapping_moments.mapping_counties_moment(plot_df=mn_is_moments,figsize=(14,6),colors='GnBu',
+                                        #vmax=2,vmin=1,
+                                        plot_subtitles=['a) Surprise Cold Events Below 5th Percentile \n (month, fixed)',
+                                                        'b) Surprise Cold Events Below 5th Percentile \n (month, moving)'])
+
+mn_moments=maindf[['an_mn_tas_how_low_f1','an_mn_tas_how_low_f2',
+                   'mn0_tas_how_low_f1','mn0_tas_how_low_f2','Kreise_Code']].copy()
+mn_moments=mn_moments.groupby('Kreise_Code').mean()
+mapping_moments.mapping_counties_moment(plot_df=mn_moments,figsize=(14,6),colors='GnBu',
+                                        #vmax=2,vmin=1,
+                                        plot_subtitles=['a) Surprise Cold °C <= 5th Percentile \n (month, fixed)',
+                                                        'b) Surprise Cold °C <= 5th Percentile \n (month, moving)',
+                                                        'c) Surprise Cold °C <= 5th Percentile \n (month, fixed, inc. nulls)',
+                                                        'd) Surprise Cold °C <= 5th Percentile \n (month, moving, inc. nulls)'])
+
+sn_is_moments=maindf[['an_sn_tas_is_low_f1','an_sn_tas_is_low_f2','Kreise_Code']].copy()
+sn_is_moments=sn_is_moments.groupby('Kreise_Code').mean()
+mapping_moments.mapping_counties_moment(plot_df=sn_is_moments,figsize=(14,6),colors='GnBu',
+                                        #vmin=1,vmax=2,
+                                        plot_subtitles=['a) Surprise Cold Events Below 5th Percentile \n (season, fixed)',
+                                                        'b) Surprise Cold Events Below 5th Percentile \n (season, moving)'])
+
+sn_how_moments=maindf[['an_sn_tas_how_low_f1','an_sn_tas_how_low_f2','Kreise_Code',
+                   'sn0_tas_how_low_f1','sn0_tas_how_low_f2']].copy()
+sn_how_moments=sn_how_moments.groupby('Kreise_Code').mean()
+mapping_moments.mapping_counties_moment(plot_df=sn_how_moments,figsize=(14,6),colors='GnBu',
+                                        #vmin=1,vmax=2,
+                                        plot_subtitles=['a) Surprise Cold <= 5th Percentile °C \n (season, fixed)',
+                                                        'b) Surprise Cold <= 5th Percentile °C \n (season, moving)',
+                                                        'c) Surprise Cold <= 5th Percentile °C \n (season, fixed, inc. nulls)',
+                                                        'd) Surprise Cold <= 5th Percentile °C \n (season, moving, inc. nulls)'])
+
+plot_cols = {'an_sn_tas_how_low_f1': 'a) Surprise Cold <= 5th Percentile °C (season, fixed)',
+             'an_sn_tas_how_low_f2': 'b) Surprise Cold <= 5th Percentile °C \n (season, moving)',
+             'sn0_tas_how_low_f1': 'c) Surprise Cold <= 5th Percentile °C \n (season, fixed, inc. null)',
+             'sn0_tas_how_low_f2': 'd) Surprise Cold <= 5th Percentile °C \n (season, moving, inc. null)'}
+
+stdevs = maindf[['year', 'Kreise_Code'] + list(plot_cols.keys())].copy()
+DE_mean = stdevs.groupby('year').mean(numeric_only=True)
+
+major_counties = {6412: 'Frankfurt', 3241: 'Hannover',
+                  9184: 'Munich',   2000: 'Hamburg',
+                  11000: 'Berlin',  14612: 'Dresden',
+                  5315: 'Cologne', 8111: 'Stuttgart'}
+colours = ['darkgrey', 'orange', 'green', 'purple', 'red', 'darkorange', 'blue', 'cyan']
+
+stdevs = stdevs[stdevs['Kreise_Code'].isin(list(major_counties.keys()))]
+
+fig, axes = plt.subplots(ncols=2, nrows=2, figsize=(18, 12))
+axes = axes.flatten()  # 2x2 array -> 1D, so axes[0..3] indexing works
+
+for ax_ix, col in enumerate(plot_cols):
+    for colour_ix, county in enumerate(major_counties):
+        county_df = stdevs[stdevs['Kreise_Code'] == county][['year', col]].set_index('year')
+        axes[ax_ix].plot(county_df.index, county_df[col], color=colours[colour_ix],
+                          label=major_counties[county], linewidth=1.5)
+    
+    # national average reference line
+    axes[ax_ix].plot(DE_mean.index, DE_mean[col], color='black', linestyle='--',
+                      linewidth=2, label='DE Average')
+    
+    axes[ax_ix].set_title(plot_cols[col], fontsize=14, fontweight='bold')
+    axes[ax_ix].set_xlabel('')
+    axes[ax_ix].set_ylabel('Temp °C <= 5th Percentile')
+    axes[ax_ix].tick_params(axis='x', rotation=45, labelsize=11)
+    axes[ax_ix].tick_params(axis='y', labelsize=13)
+
+# single shared legend at the bottom, built from the last axis's handles
+handles, labels = axes[-1].get_legend_handles_labels()
+fig.legend(handles, labels, loc='lower center', ncol=len(major_counties) + 1,
+           bbox_to_anchor=(0.5, -0.03), frameon=False, fontsize=13)
+
+plt.tight_layout()
+plt.subplots_adjust(bottom=0.1)
+plt.show()
+
+plot_cols = {'an_mn_tas_how_low_f1': 'a) Surprise Cold <= 5th Percentile °C (month, fixed)',
+             'an_mn_tas_how_low_f2': 'b) Surprise Cold <= 5th Percentile °C (month, moving)',
+             'mn0_tas_how_low_f1': 'c) Surprise Cold <= 5th Percentile °C (month, fixed, inc. null)',
+             'mn0_tas_how_low_f2': 'd) Surprise Cold <= 5th Percentile °C (month, moving, inc. null)'}
+
+stdevs = maindf[['year', 'Kreise_Code'] + list(plot_cols.keys())].copy()
+DE_mean = stdevs.groupby('year').mean(numeric_only=True)
+
+major_counties = {6412: 'Frankfurt', 3241: 'Hannover',
+                  9184: 'Munich',   2000: 'Hamburg',
+                  11000: 'Berlin',  14612: 'Dresden',
+                  5315: 'Cologne', 8111: 'Stuttgart'}
+colours = ['darkgrey', 'orange', 'green', 'purple', 'red', 'darkorange', 'blue', 'cyan']
+
+stdevs = stdevs[stdevs['Kreise_Code'].isin(list(major_counties.keys()))]
+
+fig, axes = plt.subplots(ncols=2, nrows=2, figsize=(18, 12))
+axes = axes.flatten()  # 2x2 array -> 1D, so axes[0..3] indexing works
+
+for ax_ix, col in enumerate(plot_cols):
+    for colour_ix, county in enumerate(major_counties):
+        county_df = stdevs[stdevs['Kreise_Code'] == county][['year', col]].set_index('year')
+        axes[ax_ix].plot(county_df.index, county_df[col], color=colours[colour_ix],
+                          label=major_counties[county], linewidth=1.5)
+    
+    # national average reference line
+    axes[ax_ix].plot(DE_mean.index, DE_mean[col], color='black', linestyle='--',
+                      linewidth=2, label='DE Average')
+    
+    axes[ax_ix].set_title(plot_cols[col], fontsize=14, fontweight='bold')
+    axes[ax_ix].set_xlabel('')
+    axes[ax_ix].set_ylabel('Temp °C <= 5th Percentile')
+    axes[ax_ix].tick_params(axis='x', rotation=45, labelsize=11)
+    axes[ax_ix].tick_params(axis='y', labelsize=13)
+
+# single shared legend at the bottom, built from the last axis's handles
+handles, labels = axes[-1].get_legend_handles_labels()
+fig.legend(handles, labels, loc='lower center', ncol=len(major_counties) + 1,
+           bbox_to_anchor=(0.5, -0.03), frameon=False, fontsize=13)
+
+plt.tight_layout()
+plt.subplots_adjust(bottom=0.1)
+plt.show()
+
+climate_cols=['an_mn_tas_how_low_f1','an_mn_tas_how_low_f2','mn0_tas_how_low_f1','mn0_tas_how_low_f2']
+corrs=[]
+for climate_col in climate_cols:
+    temp_df=pd.DataFrame()
+    for county in counties_list:
+        temp = maindf[maindf['Kreise_Code']==county][['year',climate_col,'ln_gdppc.d1']].set_index('year')
+        corr_val = temp.corr(method='spearman').values[0,1]
+        temp_df.loc[county,climate_col]=corr_val
+    corrs.append(temp_df)
+corr_df_cold_mn=pd.concat(corrs,axis=1).reset_index().rename(columns={'index':'Kreise_Code'}).set_index('Kreise_Code')
+mapping_moments.mapping_counties_moment(plot_df=corr_df_cold_mn,colors='RdYlGn',vmin=-0.75,vmax=0.57,
+                                        figsize=(16,8),plot_subtitles=['a) Surprise Cold °C \n (month, fixed)',
+                                                                       'b) Surprise Cold °C \n (month, moving)',
+                                                                      'c) Surprise Cold °C \n (month, fixed, inc. null)',
+                                                                       'd) Surprise Cold °C \n (month, moving, inc. null)'])
+
+climate_cols=['an_sn_tas_how_low_f1','an_sn_tas_how_low_f2','sn0_tas_how_low_f1','sn0_tas_how_low_f2']
+corrs=[]
+for climate_col in climate_cols:
+    temp_df=pd.DataFrame()
+    for county in counties_list:
+        temp = maindf[maindf['Kreise_Code']==county][['year',climate_col,'ln_gdppc.d1']].set_index('year')
+        corr_val = temp.corr(method='spearman').values[0,1]
+        temp_df.loc[county,climate_col]=corr_val
+    corrs.append(temp_df)
+corr_df_cold_sn=pd.concat(corrs,axis=1).reset_index().rename(columns={'index':'Kreise_Code'}).set_index('Kreise_Code')
+mapping_moments.mapping_counties_moment(plot_df=corr_df_cold_sn,colors='RdYlGn',vmin=-0.70,vmax=0.38,
+                                        figsize=(16,8),plot_subtitles=['a) Surprise Cold °C \n (season, fixed)',
+                                                                       'b) Surprise Cold °C \n (season, moving)',
+                                                                      'c) Surprise Cold °C \n (season, fixed, inc. null)',
+                                                                       'd) Surprise Cold °C \n (season, moving, inc. null)'])
+
+mn_prec_is_moments=maindf[['an_mn_prec_is_high_f1','an_mn_prec_is_high_f2','Kreise_Code']].copy()
+mn_prec_is_moments=mn_prec_is_moments.groupby('Kreise_Code').mean()
+mapping_moments.mapping_counties_moment(plot_df=mn_prec_is_moments,figsize=(14,6),colors='GnBu',
+                                        vmax=5.15,vmin=1.65,
+                                        plot_subtitles=['a) Surprise Prec Events Exceeding 95th Percentile \n (month, fixed)',
+                                                        'b) Surprise Prec Events Exceeding 95th Percentile \n (month, moving)'])
+
+mn_prec_moments=maindf[['an_mn_prec_how_high_f1','an_mn_prec_how_high_f2',
+                   'mn0_prec_how_high_f1','mn0_prec_how_high_f2','Kreise_Code']].copy()
+mn_prec_moments=mn_prec_moments.groupby('Kreise_Code').mean()
+mapping_moments.mapping_counties_moment(plot_df=mn_prec_moments,figsize=(14,6),colors='GnBu',
+                                        vmax=26.10,vmin=1.15,
+                                        plot_subtitles=['a) Surprise Precipitation mm >= \n 95th Percentile \n (month, fixed)',
+                                                        'b) Surprise Precipitation mm >= \n 95th Percentile \n (month, moving)',
+                                                        'c) Surprise Precipitation mm >= \n 95th Percentile \n (month, fixed, inc. nulls)',
+                                                        'd) Surprise Precipitation mm >= \n 95th Percentile \n (month, moving, inc. nulls)'])
+sn_prec_is_moments=maindf[['an_sn_prec_is_high_f1','an_sn_prec_is_high_f2','Kreise_Code']].copy()
+sn_prec_is_moments=sn_prec_is_moments.groupby('Kreise_Code').mean()
+mapping_moments.mapping_counties_moment(plot_df=sn_prec_is_moments,figsize=(14,6),colors='GnBu',
+                                        vmax=5.15,vmin=1.65,
+                                        plot_subtitles=['a) Surprise Prec Events Exceeding 95th Percentile \n (season, fixed)',
+                                                        'b) Surprise Prec Events Exceeding 95th Percentile \n (season, moving)'])
+
+sn_prec_how_moments=maindf[['an_sn_prec_how_high_f1','an_sn_prec_how_high_f2','Kreise_Code',
+                   'sn0_prec_how_high_f1','sn0_prec_how_high_f2']].copy()
+sn_prec_how_moments=sn_prec_how_moments.groupby('Kreise_Code').mean()
+mapping_moments.mapping_counties_moment(plot_df=sn_prec_how_moments,figsize=(14,6),colors='GnBu',
+                                        #vmin=0.55,vmax=2,
+                                        plot_subtitles=['a) Surprise Precipitation mm >= \n 95th Percentile  \n (season, fixed)',
+                                                        'b) Surprise Precipitation mm >= \n 95th Percentile \n (season, moving)',
+                                                        'c) Surprise Precipitation mm >= \n 95th Percentile \n (season, fixed, inc. nulls)',
+                                                        'd) Surprise Precipitation mm >= \n 95th Percentile \n (season, moving, inc. nulls)'])
+plot_cols = {'an_sn_prec_how_high_f1': 'a) Surprise Precipitation mm >= \n 95th Percentile \n (season, fixed)',
+             'an_sn_prec_how_high_f2': 'b) Surprise Precipitation mm >= \n 95th Percentile \n (season, moving)',
+             'sn0_prec_how_high_f1': 'c) Surprise Precipitation mm >= \n 95th Percentile \n (season, fixed, inc. null)',
+             'sn0_prec_how_high_f2': 'd) Surprise Precipitation mm >= \n 95th Percentile \n (season, moving, inc. null)'}
+
+stdevs = maindf[['year', 'Kreise_Code'] + list(plot_cols.keys())].copy()
+DE_mean = stdevs.groupby('year').mean(numeric_only=True)
+
+colours = ['darkgrey', 'orange', 'green', 'purple', 'red', 'darkorange', 'blue', 'cyan']
+
+stdevs = stdevs[stdevs['Kreise_Code'].isin(list(major_counties.keys()))]
+
+fig, axes = plt.subplots(ncols=2, nrows=2, figsize=(18, 12))
+axes = axes.flatten()  # 2x2 array -> 1D, so axes[0..3] indexing works
+
+for ax_ix, col in enumerate(plot_cols):
+    for colour_ix, county in enumerate(major_counties):
+        county_df = stdevs[stdevs['Kreise_Code'] == county][['year', col]].set_index('year')
+        axes[ax_ix].plot(county_df.index, county_df[col], color=colours[colour_ix],
+                          label=major_counties[county], linewidth=1.5)
+    
+    # national average reference line
+    axes[ax_ix].plot(DE_mean.index, DE_mean[col], color='black', linestyle='--',
+                      linewidth=2, label='DE Average')
+    
+    axes[ax_ix].set_title(plot_cols[col], fontsize=14, fontweight='bold')
+    axes[ax_ix].set_xlabel('')
+    axes[ax_ix].set_ylabel('Prec mm >= 95th Percentile')
+    axes[ax_ix].tick_params(axis='x', rotation=45, labelsize=11)
+    axes[ax_ix].tick_params(axis='y', labelsize=13)
+
+# single shared legend at the bottom, built from the last axis's handles
+handles, labels = axes[-1].get_legend_handles_labels()
+fig.legend(handles, labels, loc='lower center', ncol=len(major_counties) + 1,
+           bbox_to_anchor=(0.5, -0.03), frameon=False, fontsize=13)
+
+plt.tight_layout()
+plt.subplots_adjust(bottom=0.1)
+plt.show()
+
+plot_cols = {'an_mn_prec_how_high_f1': 'a) Surprise Precipitation mm >= \n 95th Percentile \n (month, fixed)',
+             'an_mn_prec_how_high_f2': 'b) Surprise Precipitation mm >= \n 95th Percentile \n (month, moving)',
+             'mn0_prec_how_high_f1': 'c) Surprise Precipitation mm >= \n 95th Percentile \n (month, fixed, inc. null)',
+             'mn0_prec_how_high_f2': 'd) Surprise Precipitation mm >= \n 95th Percentile \n (month, moving, inc. null)'}
+
+stdevs = maindf[['year', 'Kreise_Code'] + list(plot_cols.keys())].copy()
+DE_mean = stdevs.groupby('year').mean(numeric_only=True)
+
+colours = ['darkgrey', 'orange', 'green', 'purple', 'red', 'darkorange', 'blue', 'cyan']
+
+stdevs = stdevs[stdevs['Kreise_Code'].isin(list(major_counties.keys()))]
+
+
+fig, axes = plt.subplots(ncols=2, nrows=2, figsize=(18, 12))
+axes = axes.flatten()  # 2x2 array -> 1D, so axes[0..3] indexing works
+
+for ax_ix, col in enumerate(plot_cols):
+    for colour_ix, county in enumerate(major_counties):
+        county_df = stdevs[stdevs['Kreise_Code'] == county][['year', col]].set_index('year')
+        axes[ax_ix].plot(county_df.index, county_df[col], color=colours[colour_ix],
+                          label=major_counties[county], linewidth=1.5)
+    
+    # national average reference line
+    axes[ax_ix].plot(DE_mean.index, DE_mean[col], color='black', linestyle='--',
+                      linewidth=2, label='DE Average')
+    
+    axes[ax_ix].set_title(plot_cols[col], fontsize=14, fontweight='bold')
+    axes[ax_ix].set_xlabel('')
+    axes[ax_ix].set_ylabel('Prec mm >= 95th Percentile')
+    axes[ax_ix].tick_params(axis='x', rotation=45, labelsize=11)
+    axes[ax_ix].tick_params(axis='y', labelsize=13)
+
+# single shared legend at the bottom, built from the last axis's handles
+handles, labels = axes[-1].get_legend_handles_labels()
+fig.legend(handles, labels, loc='lower center', ncol=len(major_counties) + 1,
+           bbox_to_anchor=(0.5, -0.03), frameon=False, fontsize=13)
+
+plt.tight_layout()
+plt.subplots_adjust(bottom=0.1)
+plt.show()
+
+climate_cols=['an_mn_prec_how_high_f1','an_mn_prec_how_high_f2','mn0_prec_how_high_f1','mn0_prec_how_high_f2']
+corrs=[]
+for climate_col in climate_cols:
+    temp_df=pd.DataFrame()
+    for county in counties_list:
+        temp = maindf[maindf['Kreise_Code']==county][['year',climate_col,'ln_gdppc.d1']].set_index('year')
+        corr_val = temp.corr(method='spearman').values[0,1]
+        temp_df.loc[county,climate_col]=corr_val
+    corrs.append(temp_df)
+corr_df_wet_mn=pd.concat(corrs,axis=1).reset_index().rename(columns={'index':'Kreise_Code'}).set_index('Kreise_Code')
+mapping_moments.mapping_counties_moment(plot_df=corr_df_wet_mn,colors='RdYlGn',#vmin=-0.75,vmax=0.57,
+                                        figsize=(16,8),plot_subtitles=['a) Surprise High Prec mm \n (month, fixed)',
+                                                                       'b) Surprise High Prec mm \n (month, moving)',
+                                                                      'c) Surprise High Prec mm \n (month, fixed, inc. null)',
+                                                                       'd) Surprise High Prec mm \n (month, moving, inc. null)'])
+
+climate_cols=['an_sn_prec_how_high_f1','an_sn_prec_how_high_f2','sn0_prec_how_high_f1','sn0_prec_how_high_f2']
+corrs=[]
+for climate_col in climate_cols:
+    temp_df=pd.DataFrame()
+    for county in counties_list:
+        temp = maindf[maindf['Kreise_Code']==county][['year',climate_col,'ln_gdppc.d1']].set_index('year')
+        corr_val = temp.corr(method='spearman').values[0,1]
+        temp_df.loc[county,climate_col]=corr_val
+    corrs.append(temp_df)
+corr_df_wet_sn=pd.concat(corrs,axis=1).reset_index().rename(columns={'index':'Kreise_Code'}).set_index('Kreise_Code')
+mapping_moments.mapping_counties_moment(plot_df=corr_df_wet_sn,colors='RdYlGn',#vmin=-0.70,vmax=0.38,
+                                        figsize=(16,8),plot_subtitles=['a) Surprise High Prec mm \n (season, fixed)',
+                                                                       'b) Surprise High Prec mm \n (season, moving)',
+                                                                      'c) Surprise High Prec mm \n (season, fixed, inc. null)',
+                                                                       'd) Surprise High Prec mm \n (season, moving, inc. null)'])
+
+mn_prec_is_moments=maindf[['an_mn_prec_is_low_f1','an_mn_prec_is_low_f2','Kreise_Code']].copy()
+mn_prec_is_moments=mn_prec_is_moments.groupby('Kreise_Code').mean()
+mapping_moments.mapping_counties_moment(plot_df=mn_prec_is_moments,figsize=(14,6),colors='Oranges',
+                                        #vmax=5.15,vmin=1.65,
+                                        plot_subtitles=['a) Surprise Prec Events Below 5th Percentile \n (month, fixed)',
+                                                        'b) Surprise Prec Events Below 5th Percentile \n (month, moving)'])
+
+mn_prec_how_moments=maindf[['an_mn_prec_how_low_f1','an_mn_prec_how_low_f2',
+                   'mn0_prec_how_low_f1','mn0_prec_how_low_f2','Kreise_Code']].copy()
+mn_prec_how_moments=mn_prec_how_moments.groupby('Kreise_Code').mean()
+mapping_moments.mapping_counties_moment(plot_df=mn_prec_how_moments,figsize=(14,6),colors='coolwarm_r',
+                                        #vmax=26.10,vmin=1.15,
+                                        plot_subtitles=['a) Surprise Precipitation mm <= \n 5th Percentile \n (month, fixed)',
+                                                        'b) Surprise Precipitation mm <= \n 5th Percentile \n (month, moving)',
+                                                        'c) Surprise Precipitation mm <= \n 5th Percentile \n (month, fixed, inc. nulls)',
+                                                        'd) Surprise Precipitation mm <= \n 5th Percentile \n (month, moving, inc. nulls)'])
+
+sn_prec_how_moments=maindf[['an_sn_prec_how_low_f1','an_sn_prec_how_low_f2','Kreise_Code',
+                   'sn0_prec_how_low_f1','sn0_prec_how_low_f2']].copy()
+sn_prec_how_moments=sn_prec_how_moments.groupby('Kreise_Code').mean()
+mapping_moments.mapping_counties_moment(plot_df=sn_prec_how_moments,figsize=(14,6),colors='coolwarm_r',
+                                        #vmin=0.55,vmax=2,
+                                        plot_subtitles=['a) Surprise Precipitation mm <= \n 5th Percentile  \n (season, fixed)',
+                                                        'b) Surprise Precipitation mm <= \n 5th Percentile \n (season, moving)',
+                                                        'c) Surprise Precipitation mm <= \n 5th Percentile \n (season, fixed, inc. nulls)',
+                                                        'd) Surprise Precipitation mm <= \n 5th Percentile \n (season, moving, inc. nulls)'])
+
+sn_prec_is_moments=maindf[['an_sn_prec_is_low_f1','an_sn_prec_is_low_f2','Kreise_Code']].copy()
+sn_prec_is_moments=sn_prec_is_moments.groupby('Kreise_Code').mean()
+mapping_moments.mapping_counties_moment(plot_df=sn_prec_is_moments,figsize=(14,6),colors='Oranges',
+                                        #vmax=5.15,vmin=1.65,
+                                        plot_subtitles=['a) Surprise Prec Events Below 5th Percentile \n (season, fixed)',
+                                                        'b) Surprise Prec Events Below 5th Percentile \n (season, moving)'])
+
+plot_cols = {'an_sn_prec_is_low_f1': 'a) Surprise Precipitation Event <= \n 5th Percentile \n (season, fixed)',
+             'an_sn_prec_is_low_f2': 'b) Surprise Precipitation Event <= \n 5th Percentile \n (season, moving)'
+             #'sn0_prec_is_low_f1': 'c) Surprise Precipitation Event <= \n 5th Percentile \n (season, fixed, inc. null)',
+             #'sn0_prec_is_low_f2': 'd) Surprise Precipitation Event <= \n 5th Percentile \n (season, moving, inc. null)'
+            }
+
+stdevs = maindf[['year', 'Kreise_Code'] + list(plot_cols.keys())].copy()
+DE_mean = stdevs.groupby('year').mean(numeric_only=True)
+
+colours = ['darkgrey', 'orange', 'green', 'purple', 'red', 'darkorange', 'blue', 'cyan']
+
+stdevs = stdevs[stdevs['Kreise_Code'].isin(list(major_counties.keys()))]
+
+fig, axes = plt.subplots(ncols=2, nrows=1, figsize=(18, 5))
+axes = axes.flatten()  # 2x2 array -> 1D, so axes[0..3] indexing works
+
+for ax_ix, col in enumerate(plot_cols):
+    for colour_ix, county in enumerate(major_counties):
+        county_df = stdevs[stdevs['Kreise_Code'] == county][['year', col]].set_index('year')
+        axes[ax_ix].plot(county_df.index, county_df[col], color=colours[colour_ix],
+                          label=major_counties[county], linewidth=1.5)
+    
+    # national average reference line
+    axes[ax_ix].plot(DE_mean.index, DE_mean[col], color='black', linestyle='--',
+                      linewidth=2, label='DE Average')
+    
+    axes[ax_ix].set_title(plot_cols[col], fontsize=14, fontweight='bold')
+    axes[ax_ix].set_xlabel('')
+    axes[ax_ix].set_ylabel('Count of Events')
+    axes[ax_ix].tick_params(axis='x', rotation=45, labelsize=11)
+    axes[ax_ix].tick_params(axis='y', labelsize=13)
+
+# single shared legend at the bottom, built from the last axis's handles
+handles, labels = axes[-1].get_legend_handles_labels()
+fig.legend(handles, labels, loc='lower center', ncol=len(major_counties) + 1,
+           bbox_to_anchor=(0.5, -0.03), frameon=False, fontsize=13)
+
+plt.tight_layout()
+plt.subplots_adjust(bottom=0.1)
+plt.show()
+
+plot_cols = {'an_mn_prec_is_low_f1': 'a) Surprise Precipitation Event <= \n 5th Percentile \n (month, fixed)',
+             'an_mn_prec_is_low_f2': 'b) Surprise Precipitation Event <= \n 5th Percentile \n (month, moving)'}
+             #'mn0_prec_is_high_f1': 'c) Surprise Precipitation mm >= \n 95th Percentile \n (month, fixed, inc. null)',
+             #'mn0_prec_is_high_f2': 'd) Surprise Precipitation mm >= \n 95th Percentile \n (month, moving, inc. null)'}
+
+stdevs = maindf[['year', 'Kreise_Code'] + list(plot_cols.keys())].copy()
+DE_mean = stdevs.groupby('year').mean(numeric_only=True)
+
+colours = ['darkgrey', 'orange', 'green', 'purple', 'red', 'darkorange', 'blue', 'cyan']
+
+stdevs = stdevs[stdevs['Kreise_Code'].isin(list(major_counties.keys()))]
+
+fig, axes = plt.subplots(ncols=2, nrows=1, figsize=(18, 5))
+axes = axes.flatten()  # 2x2 array -> 1D, so axes[0..3] indexing works
+
+for ax_ix, col in enumerate(plot_cols):
+    for colour_ix, county in enumerate(major_counties):
+        county_df = stdevs[stdevs['Kreise_Code'] == county][['year', col]].set_index('year')
+        axes[ax_ix].plot(county_df.index, county_df[col], color=colours[colour_ix],
+                          label=major_counties[county], linewidth=1.5)
+    
+    # national average reference line
+    axes[ax_ix].plot(DE_mean.index, DE_mean[col], color='black', linestyle='--',
+                      linewidth=2, label='DE Average')
+    
+    axes[ax_ix].set_title(plot_cols[col], fontsize=14, fontweight='bold')
+    axes[ax_ix].set_xlabel('')
+    axes[ax_ix].set_ylabel('Count of Events')
+    axes[ax_ix].tick_params(axis='x', rotation=45, labelsize=11)
+    axes[ax_ix].tick_params(axis='y', labelsize=13)
+
+# single shared legend at the bottom, built from the last axis's handles
+handles, labels = axes[-1].get_legend_handles_labels()
+fig.legend(handles, labels, loc='lower center', ncol=len(major_counties) + 1,
+           bbox_to_anchor=(0.5, -0.03), frameon=False, fontsize=13)
+
+plt.tight_layout()
+plt.subplots_adjust(bottom=0.1)
+plt.show()
