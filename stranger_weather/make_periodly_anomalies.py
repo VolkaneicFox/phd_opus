@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-path_prefix="C://Users/nb/Desktop/paper_one/"
+path_prefix=""
 counties_list=os.listdir(f"{path_prefix}/kreise_daily_tas_full/")
 
 from make_anomalies import anomalies
