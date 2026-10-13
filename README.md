@@ -5,7 +5,7 @@ I started my PhD in the Leibniz Institute for Economic Research (IWH) in October
 <p align="justify">  
 However, the sheer meta density of satellite and high-resolution data is a significant hurdle in the path of meaningful modelling and inference. Therefore, a core component of my thesis is wrangling N-Dimensional data. From measuring granular weather shocks as deviations from their local historical references, to comparing the tacit distinctions across seasonal and monthly baselines, I have developed mastery of large data compression and its translation.</p>
 <p align="justify"> 
-This repository is still, as of 13 October 2026, a work in progress, and as it grows, so will my insights into the skills I have developed.</p> 
+This repository is still, as of 13 October 2026, a work in progress.</p> 
 
 ### Research Projects
 
