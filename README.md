@@ -5,8 +5,14 @@ I started my PhD in the Leibniz Institute for Economic Research (IWH) in October
 <p align="justify">  
 However, the sheer meta density of satellite and high-resolution data is a significant challenge in modelling and inference. Therefore, a core component of my thesis is wrangling N-Dimensional data. From measuring granular weather shocks as deviations from their local historical references, to comparing the tacit distinctions across seasonal and monthly baselines, large data compression and its accurate translation is fundamental in my final analyses.</p>
 <p align="justify"> 
-This repository is still, as of 13 October 2026, a work in progress.</p> 
+This repository is still, as of 13 October 2026, a work in progress.</p>
 
+---
+Methodological Rigors:
+1. Panel econometrics with FWL projections for causal robustness, spatial robustness verified using Conley Standard Errors, and temporal robustness ensured with seasonal adjustments.
+2. Ensemble weighted Machine Learning Predictions, tested against prediction uncertainty, and improved prediction for high-risk units using dispersion weighting schemes.
+3. CUDA pipeline for Copernicus Grid Data.
+---
 ### Research Projects
 
 **Paper 1:** Stranger Weather: Estimating the Growth Shock from Historic and Structural Deviations in the Local Weather of 400 German Counties, 1995–2019. [*Read Paper 1 Overview & Code Pipeline*](https://github.com/VolkaneicFox/phd_opus/stranger_weather/readme.md) 
