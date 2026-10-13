@@ -1,7 +1,7 @@
 <h1 align="center">Stranger Weather</h1>
 <h3 align="center">Estimating the Growth Shock from Historic and Structural Deviations in the Local Weather of 400 German Counties, 1995–2019</h3>
 
-<p align="center">
+<p align="justify">
   <b>Oliver Holtemöller</b> and <b>Sukanya Mukherjee</b><br>
   <sub>IWH Halle (Saale) and MLU Halle (Saale)</sub>
 </p>
