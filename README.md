@@ -33,7 +33,7 @@ For each county, the climate reference is derived from a baseline fixed in 1950-
     <b>Figure. </b>.
     
   </figcaption>
-  <img src="https://raw.githubusercontent.com/VolkaneicFox/phd_opus/main/stranger_weather/images/map_tas_surprise_heat_sn.png" alt="Regions of Germany warming map" style="width: 100%; height: auto;">
+  <img src="https://raw.githubusercontent.com/VolkaneicFox/phd_opus/main/in_fieri_gridded_climate_anomalies_cuda/images/vpd_5margin_brazil_moving_breach.png.png" alt="Regions of Central SA vpd map" style="width: 100%; height: auto;">
 </figure>
 
 ---
