@@ -34,7 +34,9 @@ For each county, the climate reference is derived from a baseline fixed in 1950-
 ---
 ---
 
-**Paper 3:** Presently in Progress, I am developing grid-level anomalous deviations of a suite of agro-meteorological indices published  by Copernicus, the final objective is to tie this to volatility in the commodities derivatives space, particularly to coffee futures prices.
+### Paper 3: ### 
+
+Presently in Progress, I am developing grid-level anomalous deviations of a suite of agro-meteorological indices published  by Copernicus, the final objective is to tie this to volatility in the commodities derivatives space, particularly to coffee futures prices.
 
 ----
 <figure style="width: 80%; margin: 0 auto; text-align: center;">
