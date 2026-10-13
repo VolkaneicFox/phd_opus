@@ -3,7 +3,7 @@
 <p align="justify">
 I started my PhD in the Leibniz Institute for Economic Research (IWH) in October 2022, under the supervisions of Dr. Oliver Holtemöller (IWH and MLU) and Dr. Martin Quaas (Leipzig Uni). The central agenda was to estimate the losses from climate shocks. In the course of my research, I have seen the capacity of satellite data to introduce novel measures of climate risk at granularity we have never seen before, to the best of my knowledge.</p>
 <p align="justify">  
-However, the sheer meta density of satellite and high-resolution data is a significant hurdle in the path of meaningful modelling and inference. Therefore, a core component of my thesis is wrangling N-Dimensional data. From measuring granular weather shocks as deviations from their local historical references, to comparing the tacit distinctions across seasonal and monthly baselines, I have developed mastery of large data compression and its translation.</p>
+However, the sheer meta density of satellite and high-resolution data is a significant challenge in modelling and inference. Therefore, a core component of my thesis is wrangling N-Dimensional data. From measuring granular weather shocks as deviations from their local historical references, to comparing the tacit distinctions across seasonal and monthly baselines, I have developed mastery of large data compression and its translation.</p>
 <p align="justify"> 
 This repository is still, as of 13 October 2026, a work in progress.</p> 
 
