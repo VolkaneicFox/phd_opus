@@ -13,9 +13,9 @@ Methodological Rigors:
 2. Ensemble weighted Machine Learning Predictions, tested against prediction uncertainty, and improved prediction for high-risk units using dispersion weighting schemes.
 3. CUDA pipeline for Copernicus Grid Data.
 ---
-### Research Projects
+## Research Projects
 
-**Paper 1:** Stranger Weather: Estimating the Growth Shock from Historic and Structural Deviations in the Local Weather of 400 German Counties, 1995–2019. [*Read Paper 1 Overview & Code Pipeline*](https://github.com/VolkaneicFox/phd_opus/stranger_weather/readme.md) 
+### Paper 1:  Stranger Weather: Estimating the Growth Shock from Historic and Structural Deviations in the Local Weather of 400 German Counties, 1995–2019. [*Read Paper 1 Overview & Code Pipeline*](https://github.com/VolkaneicFox/phd_opus/stranger_weather/readme.md) ###
 
 
 For each county, the climate reference is derived from a baseline fixed in 1950-80, as well as from moving baselines that update each year, to account for recent climate pasts that make the measures of extremes more conservative, while evincing trends in accelerated climate change. 
