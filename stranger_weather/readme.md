@@ -20,7 +20,7 @@ On annual fluctuations in temperature, the seasonal mean temperatures deviate ro
 The question - "does it matter?" - remains central to the interpretations presented in this paper. In the end, this paper attempts to contribute to existing climate discourse, the assessment that how weather or climate anomalies are defined, is critical for measuring climate risk, identifying geographical vulnerabilities and estimating potential economic losses, with the goal of informing diverse economic decisions.<p align="justify">
 
 
-The Projections used in the Panel Econometrics Model are built by me completely, as seen in [here](https://github.com/VolkaneicFox/phd_opus/stranger_weather/panel_estimation.py), so that robustness is confirmed under [Conley Standard Errors](https://github.com/VolkaneicFox/phd_opus/stranger_weather/code_conley_weights.py).
+The Projections used in the Panel Econometrics Model are built by me completely, as seen in [here](https://github.com/VolkaneicFox/phd_opus/stranger_weather/panel_estimation.py), so that robustness is confirmed under *conley standard errors*.
 
 ---
 
