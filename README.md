@@ -37,7 +37,7 @@ For each county, the climate reference is derived from a baseline fixed in 1950-
 ----
 <figure style="width: 80%; margin: 0 auto; text-align: center;">
   <figcaption style="margin-top: 8px; margin-bottom: 30px; font-size: 0.6em; color: #555; text-align: justify; text-justify: inter-word;">
-    <b>Figure 3. </b>. Plant stress is measured as the amount of water the atmosphere can draw from plants at the highest temperature point of the day. The series of these figures show, for Central South America, the increase in plant stress during different times of the year, against an annually updated (rolling) historical reference window. This shows acceleration in plant stress in the region, and the bi-monthly groupings, help identify the stressful seasons. Regionally, the north of Argentina and Paraguay have experienced the highest increase in plant stress between 2000 and 2025.
+    <b>Figure 3. </b>Plant stress is measured as the amount of water the atmosphere can draw from plants at the highest temperature point of the day. The series of these figures show, for Central South America, the increase in plant stress during different times of the year, against an annually updated (rolling) historical reference window. This shows acceleration in plant stress in the region, and the bi-monthly groupings, help identify the stressful seasons. Regionally, the north of Argentina and Paraguay have experienced the highest increase in plant stress between 2000 and 2025.
     
   </figcaption>
   <img src="https://raw.githubusercontent.com/VolkaneicFox/phd_opus/main/in_fieri_gridded_climate_anomalies_cuda/images/vpd_5margin_brazil_moving_breach.png" alt="Regions of Central SA vpd map" style="width: 100%; height: auto;">
