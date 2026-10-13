@@ -9,7 +9,7 @@ This repository is still, as of 13 October 2026, a work in progress, and as it g
 
 ### Research Projects
 <p align="justify">
-**Paper 1:** Stranger Weather: Estimating the Growth Shock from Historic and Structural Deviations in the Local Weather of 400 German Counties, 1995–2019. [*Read Paper 1 Overview & Code Pipeline*](https://github.com/VolkaneicFox/phd_opus/stranger_weather/readme.md)</p>
+**Paper 1:** Stranger Weather: Estimating the Growth Shock from Historic and Structural Deviations in the Local Weather of 400 German Counties, 1995–2019. [*Read Paper 1 Overview & Code Pipeline*](https://github.com/VolkaneicFox/phd_opus/stranger_weather/readme.md) </p>
 <p align="justify">
 The Projections used in the Panel Econometrics Model are built by me completely, as seen in [here](https://github.com/VolkaneicFox/phd_opus/stranger_weather/panel_estimation.py), so that robustness is confirmed under Conley Standard Errors.</p>
 <p align="justify">
