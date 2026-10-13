@@ -15,8 +15,9 @@ This repository is still, as of 13 October 2026, a work in progress, and as it g
 For each county, the climate reference is derived from a baseline fixed in 1950-80, as well as from moving baselines that update each year, to account for recent climate pasts that make the measures of extremes more conservative, while evincing trends in accelerated climate change. 
 
 ----
-<figure align="center">
-  <figcaption><em>Regions of Germany with accelerated warming above regional 95th daily percentile thresholds, seasonally adjusted, showing particularly rapid warming in the east-to-south-eastern counties, and the south-western belt, along the Mainz and Rhine rivers.</em></figcaption>
-  <img src="https://raw.githubusercontent.com/VolkaneicFox/phd_opus/main/stranger_weather/images/map_tas_surprise_heat_sn.png" alt="Regions of Germany warming map" width="100%">
+<figure style="width: 80%; margin: 0 auto; text-align: center;">
+  <img src="https://raw.githubusercontent.com/VolkaneicFox/phd_opus/main/stranger_weather/images/map_tas_surprise_heat_sn.png" alt="Regions of Germany warming map" style="width: 100%; height: auto;">
+  <figcaption style="margin-top: 8px; font-size: 0.9em; color: #555; text-align: justify; text-justify: inter-word;">
+    Regions of Germany with accelerated warming above regional 95th daily percentile thresholds, seasonally adjusted, showing particularly rapid warming in the east-to-south-eastern counties, and the south-western belt, along the Mainz and Rhine rivers.
+  </figcaption>
 </figure>
-
