@@ -22,3 +22,8 @@ For each county, the climate reference is derived from a baseline fixed in 1950-
   </figcaption>
   <img src="https://raw.githubusercontent.com/VolkaneicFox/phd_opus/main/stranger_weather/images/map_tas_surprise_heat_sn.png" alt="Regions of Germany warming map" style="width: 100%; height: auto;">
 </figure>
+
+---
+<h2 align="center">About me :) </h2>
+
+In my free time, I do pilates and run. I love to read, my favourite books are Blood Meridian, Catch-22 and Tinker Tailor Soldier Spy. This year, I read Blood Meridian (again! xD), and The Tiger by John Valiant.
