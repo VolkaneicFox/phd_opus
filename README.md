@@ -35,7 +35,7 @@ For each county, the climate reference is derived from a baseline fixed in 1950-
 ---
 ### Paper 2: Spoiled for Choice: Precision-Weighted Ensemble Yield Prediction for Heterogeneous Indian Farms ### 
 
-[*Read Paper 1 Overview & Code Pipeline*](https://github.com/VolkaneicFox/phd_opus/spoiled_for_choice/readme.md)
+[*Read Paper 2 Overview & Code Pipeline*](https://github.com/VolkaneicFox/phd_opus/spoiled_for_choice/readme.md)
 
 
 The farm level yield prediction is a weighted average of the individual predictions made by the suite of MLMs, subject to the degree of overfitting by the individual model, over *K* folds of cross-validation.
