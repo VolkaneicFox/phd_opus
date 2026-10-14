@@ -33,6 +33,24 @@ For each county, the climate reference is derived from a baseline fixed in 1950-
 
 ---
 ---
+### Paper 2: Spoiled for Choice: Precision-Weighted Ensemble Yield Prediction for Heterogeneous Indian Farms ### 
+
+[*Read Paper 1 Overview & Code Pipeline*](https://github.com/VolkaneicFox/phd_opus/spoiled_for_choice/readme.md)
+
+
+The farm level yield prediction is a weighted average of the individual predictions made by the suite of MLMs, subject to the degree of overfitting by the individual model, over *K* folds of cross-validation.
+
+----
+<figure style="width: 80%; margin: 0 auto; text-align: center;">
+  <figcaption style="margin-top: 8px; margin-bottom: 30px; font-size: 0.6em; color: #555; text-align: justify; text-justify: inter-word;">
+    <b>Figure 2. </b>The maps show model performance in different districts, in rice yield prediction, controlling for farm density in each district. The left panel shows the $R^2$, and darker blue districts have a higher share of farms with high prediction accuracy. The right panel shows the districts with high-uncertainty farms; the dark purple districts have more farms where the range of predictions for one farm is wide, interpreted as uncertainty.
+    
+  </figcaption>
+  <img src="https://raw.githubusercontent.com/VolkaneicFox/phd_opus/main/spoiled_for_choice/images/map_rice.png" alt="Indian Districts Model Fit" style="width: 100%; height: auto;">
+</figure>
+
+---
+---
 
 ### Paper 3: ### 
 
