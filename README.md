@@ -1,11 +1,9 @@
 <h2 align="center">Hello :) </h2>
 
 <p align="justify">
-I started my PhD in the Leibniz Institute for Economic Research (IWH) in October 2022, under the supervisions of Dr. Oliver Holtemöller (IWH and MLU) and Dr. Martin Quaas (Leipzig Uni). The central agenda was to estimate the losses from climate shocks. In the course of my research, I have seen the capacity of satellite data to introduce novel measures of climate risk at granularity we have never seen before, to the best of my knowledge.</p>
+I started my PhD in the Leibniz Institute for Economic Research (IWH) in October 2022, under the supervisions of Dr. Oliver Holtemöller (IWH and MLU) and Dr. Martin Quaas (Leipzig Uni). Broadly, my research falls in the space of climate econometrics, and the central agenda of my thesis is to estimate the losses from climate shocks. In the course of my research, I have seen the capacity of satellite data to introduce novel measures of climate risk at granularity we have never seen before, to the best of my knowledge. I use a suite of CUDA, Pandas and Numpy to compress the data within satellite images to transform them into interpretable metrics.</p>
 <p align="justify">  
-However, the sheer meta density of satellite and high-resolution data is a significant challenge in modelling and inference. Therefore, a core component of my thesis is wrangling N-Dimensional data. From measuring granular weather shocks as deviations from their local historical references, to comparing the tacit distinctions across seasonal and monthly baselines, <b>large data compression and its accurate translation is fundamental in my final analyses</b>.</p>
-<p align="justify"> 
-This repository is still, as of 13 October 2026, a work in progress.</p>
+However, the sheer meta density of satellite and high-resolution data is a significant challenge in modelling and inference. Therefore, a core component of my thesis is wrangling N-Dimensional data. From measuring granular weather shocks as deviations from their local historical references, to comparing the tacit distinctions across seasonal and monthly baselines, <b>large data compression and its accurate translation is fundamental in my final analyses</b>. The process is an exercise in backward induction, where by, the research inspires the final mode of the data, and raw data is compressed to its relevant form by the appropriate computations.</p>
 
 ---
 Methodological Rigors:
@@ -14,6 +12,11 @@ Methodological Rigors:
 3. CUDA pipeline for Copernicus Grid Data.
 4. Data preparation from Survey Filings and micro-econometric data organisation.
 ---
+
+<p align="justify"> 
+This repository is still, as of 13 October 2026, a work in progress.</p>
+
+
 ## Research Projects
 
 ### Paper 1:  Stranger Weather: Estimating the Growth Shock from Historic and Structural Deviations in the Local Weather of 400 German Counties, 1995–2019. ### 
