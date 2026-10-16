@@ -22,6 +22,8 @@ Methodological Rigors:
 
 For each county, the climate reference is derived from a baseline fixed in 1950-80, as well as from moving baselines that update each year, to account for recent climate pasts that make the measures of extremes more conservative, while evincing trends in accelerated climate change. 
 
+Data Use: GDP growth data on 400 counties, daily precipitation and temperature data from 1950 to 2020.
+
 ----
 <figure style="width: 80%; margin: 0 auto; text-align: center;">
   <figcaption style="margin-top: 8px; margin-bottom: 30px; font-size: 0.6em; color: #555; text-align: justify; text-justify: inter-word;">
@@ -39,6 +41,8 @@ For each county, the climate reference is derived from a baseline fixed in 1950-
 
 
 The farm level yield prediction is a weighted average of the individual predictions made by the suite of MLMs, subject to the degree of overfitting by the individual model, over *K* folds of cross-validation.
+
+Data Use: 35,000+ farms with rice and wheat cultivation, data from NSSO Farm Survey of 2018-2019
 
 ----
 <figure style="width: 80%; margin: 0 auto; text-align: center;">
