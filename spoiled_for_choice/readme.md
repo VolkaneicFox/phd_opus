@@ -13,6 +13,8 @@
 
 ## Abstract & Overview
 
+Full project snapshot seen [here](https://github.com/VolkaneicFox/phd_opus/blob/ac84ca0bb4155993c65aedf690ecebb8dfd03fbb/spoiled_for_choice/git_spoiled_for_choice.ipynb)
+
 Multi-model prediction tensors present the problem of **model-choice**. This project circumvents this issue using a **localised precision-weighting ensemble framework** that aggregates signals across diverse inductive biases and cross-validation folds to generate robust point predictions. 
 
 The final point estimator predicts crop yields for rice and wheat farms across India with strong empirical performance:
