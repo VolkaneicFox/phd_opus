@@ -36,7 +36,7 @@ Given the substantial heterogeneity inherent in Indian agriculture, this framewo
 ### 3. Tail-Risk Mitigation & Dispersion Weighting
 * Residual analysis reveals heteroscedastic error distributions (a distinct U-shape at yield tails).
 * We exploit this behavior using **conditional quantile prediction intervals** to flag farms with high tail-risk.
-* Applying **dispersion weighting** to this high-uncertainty subsample yields a **10% improvement in point-prediction $R^2$**.
+* Applying **dispersion weighting** to this high-uncertainty subsample yields a **10% improvement in point-prediction $R^2$** ([here](https://github.com/VolkaneicFox/phd_opus/blob/ac84ca0bb4155993c65aedf690ecebb8dfd03fbb/spoiled_for_choice/code/low_stability_farms.py)) .
 
 ### 4. Farm-Level Risk & Policy Profiling
 * Integrated **SHAP (SHapley Additive exPlanations)** values quantify the relative influence of:
