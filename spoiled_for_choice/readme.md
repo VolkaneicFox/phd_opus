@@ -25,7 +25,7 @@ Given the substantial heterogeneity inherent in Indian agriculture, this framewo
 
 ## Key Methodology & Contributions
 
-### 1. Robust Ensemble Weighting & Homoscedastic Risk
+### 1. Robust Ensemble Weighting & Homoscedastic Risk (as seen [here](https://github.com/VolkaneicFox/phd_opus/blob/f42b730dfe93f63f7973749775cb53292abc7655/spoiled_for_choice/code/multi_model_weighted_predictor.py))
 * **Candidate Models:** Random Forest (RF), XGBoost (XGB), and Support Vector Regression (SVR).
 * Empirical results demonstrate that this candidate set exhibits **homoscedastic prediction risk**, making the precision-weighted ensemble collapse to a simple, highly robust **arithmetic mean** across estimators.
 
