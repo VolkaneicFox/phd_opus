@@ -25,7 +25,7 @@ The Projections used in the Panel Econometrics Model are built by me completely,
 ---
 
 📓 **[Full analysis (notebook)](https://github.com/VolkaneicFox/phd_opus/blob/d0657d540a46d8015648ef1b518bcdfae1275429/stranger_weather/git_stranger_Weather.ipynb)**
-📓 **[Full analysis (notebook)](https://github.com/VolkaneicFox/phd_opus/blob/d0657d540a46d8015648ef1b518bcdfae1275429/stranger_weather/)**
+📓 **[Panel Regression with FWL Projections (code)](https://github.com/VolkaneicFox/phd_opus/blob/71365eac72839c28fb049ef3973cbe0b6010750f/stranger_weather/panel_estimation.py)**
 📓 **[Panel Regression Module (monthly)](https://github.com/VolkaneicFox/phd_opus/blob/d0657d540a46d8015648ef1b518bcdfae1275429/stranger_weather/monthly_regressions.ipynb)**
 📓 **[Panel Regression Module (seasonal)](https://github.com/VolkaneicFox/phd_opus/blob/d0657d540a46d8015648ef1b518bcdfae1275429/stranger_weather/seasonal_regressions.ipynb)**
 📓 **[Identification of Anomalies](https://github.com/VolkaneicFox/phd_opus/blob/d0657d540a46d8015648ef1b518bcdfae1275429/stranger_weather/make_anomalies.py)**
