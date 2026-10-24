@@ -19,7 +19,7 @@ This repository is still, as of 13 October 2026, a work in progress.</p>
 
 ## Research Projects
 
-### Paper 1:  Stranger Weather: Estimating the Growth Shock from Historic and Structural Deviations in the Local Weather of 400 German Counties, 1995–2019. ### 
+### Stranger Weather: Estimating the Growth Shock from Historic and Structural Deviations in the Local Weather of 400 German Counties, 1995–2019. ### 
 
 [*Read Paper 1 Overview & Code Pipeline*](https://github.com/VolkaneicFox/phd_opus/blob/d0657d540a46d8015648ef1b518bcdfae1275429/stranger_weather/git_stranger_Weather.ipynb)
 
@@ -39,7 +39,7 @@ Data Use: GDP growth data on 400 counties, daily precipitation and temperature d
 
 ---
 ---
-### Paper 2: Spoiled for Choice: Precision-Weighted Ensemble Yield Prediction for Heterogeneous Indian Farms ### 
+### Spoiled for Choice: Precision-Weighted Ensemble Yield Prediction for Heterogeneous Indian Farms ### 
 
 [*Read Paper 2 Overview & Code Pipeline*](https://github.com/VolkaneicFox/phd_opus/spoiled_for_choice/readme.md)
 
