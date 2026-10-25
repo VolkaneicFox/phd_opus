@@ -54,4 +54,35 @@ High-performance spatial climate data processing, moving threshold generation, e
 ### 3. `centralSA_breaches.py`
 *Regional climate exposure and stress time series processing.*
 
+* **Purpose:** Computes regional climate exposure and stress time series for agricultural modeling (e.g., Arabica coffee regions in Central South America / Brazil).
+* **Components:**
+  * `make_climate_compressed_timeseries`: Aligns climate datasets across temporal phases (2005–09, 2010–20, 2020–25) using MapSPAM spatial weights.
+  * **Precipitation Flux processing:** Calculates upper breach extent/magnitude (normalized against climatological thresholds, handling zero-bounds) and lower breach count shares.
+  * **VPD Max processing:** Extracts upper stress breach extents and shares.
+  * **Daily gridded means:** Computes and exports raw daily mean values for econometric inputs.
+  * **CSV Export:** Outputs structured regional indicator time series to `timeseries_csv/`.
+
+---
+
+### 4. `grid_compression.py`
+*Spatial weighting and crop area spatial partitioning.*
+
+* **Purpose:** Processes MapSPAM physical crop distribution raster data (e.g., Arabica coffee) across historical periods, divides regions into four spatial quadrants, computes normalized area weights, and extracts spatially-weighted regional climate time series.
+* **Components:**
+  * **`CLASS: the_growing_climate_areas`:** Loads raster GeoTIFFs, partitions spatial extents into quadrants, normalizes physical area weights (summing to 1.0), and exports NetCDF weight grids.
+  * **`CLASS: weighted_time_series`:** Aligns and merges quadrant weight matrices with climate Zarr datasets to compute weighted regional averages for econometric modeling.
+  * `making_arabica_weights`: Automation function for generating Arabica coffee spatial weights across multiple historical periods (2005, 2010, 2020).
+
+---
+
+### 5. `saving_time_series.py`
+*Time series extraction and export utility.*
+
+* **Purpose:** Extracts, processes, and exports regional climate stress and daily mean indicators for agricultural modeling (Arabica coffee quadrants) across multiple multi-year phases.
+* **Components:**
+  * `make_climate_compressed_timeseries`: Aligns climate datasets with MapSPAM spatial weights across defined historical phases (2005–09, 2010–20, 2020–25).
+  * **Precipitation Flux extraction:** Computes and exports upper breach extent, upper share, and lower breach count shares to CSV.
+  * **VPD Max extraction:** Computes and exports upper breach extent and upper share metrics.
+  * **Daily baseline means:** Computes and exports raw daily mean gridded values for both precipitation flux and maximum VPD.
+
 * **Purpose:** Computes regional climate exposure and stress time series for agricultural modeling (e.g., Arabica
