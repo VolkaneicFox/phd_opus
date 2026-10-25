@@ -83,7 +83,5 @@ High-performance spatial climate data processing, moving threshold generation, e
   * **Precipitation Flux extraction:** Computes and exports upper breach extent, upper share, and lower breach count shares to CSV.
   * **VPD Max extraction:** Computes and exports upper breach extent and upper share metrics.
   * **Daily baseline means:** Computes and exports raw daily mean gridded values for both precipitation flux and maximum VPD.
- 
-*markdown prepared with assistance from Gemini*
 
-* **Purpose:** Computes regional climate exposure and stress time series for agricultural modeling (e.g., Arabica
+*markdown prepared with assistance from Gemini*
