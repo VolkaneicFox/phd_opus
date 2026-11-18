@@ -13,7 +13,7 @@ plt.style.use('seaborn-v0_8-darkgrid')
 
 drive_path=""
 
-#%% making arabica climate_series.csv, the time series for the climate variables of window 5, hist_delta=20
+#%% making arabica climate_series.csv, the time series for the climate variables of window 5, hist_delta=20 (d20 indicates 20year reference window)
 
 """
 ['prec_flux_lowshare_w5d20.csv',
