@@ -11,10 +11,10 @@ empirical pipelines ; custom econometric estimators ; geospatial workflows ; rob
 ## Core Methodological Contributions
 
 1. **[Dynamic Rolling Baselines & Accelerated Warming](contributions/01_rolling_baselines.md)** — Isolating unanticipated weather shocks from secular warming using lagged 20- and 30-year rolling reference windows ($\pm 5\text{-day}$ calendar pooling on `Zarr` + `CuPy`).
-2. **[Spatially Robust Estimation & Grid Engineering] (link in progress)** — Custom Frisch–Waugh–Lovell (FWL) matrix projection, Conley spatial HAC standard errors, and `MAPSPAM` crop-area-weighted grid aggregation.
-3. **[Panel Econometrics for Macro-Climate Shocks](link in progress)** — Multi-dimensional fixed-effects identification across 400 German counties (`HYRAS-DE`, 1995–2019).
-4. **[Two-Stage Orthogonalized ARX Futures Pricing](link in progress)** — Partialing out financial/calendar controls before estimating 30-lag multi-quadrant ARX impulse responses for Arabica coffee and soybeans.
-5. **[Spatial Data Leakage in ML Yield Models](link in progress)* — Proving across 22,331 farms that random train-test splits inflate XGBoost out-of-sample $R^2$ gains by ~75% via spatial signature memorization.
+2. **[Panel Econometrics for Macro-Climate Shocks](link in progress)** — Multi-dimensional fixed-effects identification across 400 German counties (`HYRAS-DE`, 1995–2019).
+3. **[Spatially Robust Estimation] (link in progress)** — Custom Frisch–Waugh–Lovell (FWL) matrix projection, Conley spatial HAC standard errors
+5. **[Two-Stage Orthogonalized ARX Futures Pricing](link in progress)** — Partialing out financial/calendar controls before estimating 30-lag multi-quadrant ARX impulse responses for Arabica coffee and soybeans.
+6. **[Spatial Data Leakage in ML Yield Models](link in progress)* — Proving across 22,331 farms that random train-test splits inflate XGBoost out-of-sample $R^2$ gains by ~75% via spatial signature memorization.
 
 ---
 
