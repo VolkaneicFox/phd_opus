@@ -270,7 +270,7 @@ prec_uppershared5=prec_uppershared5.rename(columns={'prec_flux_ara_upp_area1':"P
                                                     'prec_flux_ara_upp_area2':"Pfd5UPsh_ar2", 
                                                     'prec_flux_ara_upp_area3':"Pfd5UPsh_ar3",
                                                     'prec_flux_ara_upp_area4':"Pfd5UPsh_ar4"})
-# 3. Plot a side-by-side or overlaid comparison for Area 1 (or any area you like)
+# 3. Plot a side-by-side or overlaid comparison for Area 1
 fig, axes = plt.subplots(nrows=2, ncols=1, figsize=(12, 8), sharex=True)
 
 # Plot Area 1 comparison as an example
