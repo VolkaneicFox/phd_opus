@@ -96,6 +96,8 @@ def extract_breach_events_batched(obs_zarr, thresh_zarr, batch_size=1000):
         write_compressed_netcdf(is_breach.get(), breach_mag.get())
         free_gpu_vram()
 ```
+</details>
+
 **Main Code Files:**
 1. [Zarr and CuPy Anomaly Detection](../area_of_effects/code_blocks/grid_level_anomaly_making.py)
 2. [Transforming Grid Anomalies to Sub-regional Time Series](../area_of_effects/code_blocks/grid_level_anomaly_shock.py)
