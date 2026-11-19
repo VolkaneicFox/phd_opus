@@ -54,7 +54,7 @@ empirical pipelines ; custom econometric estimators ; geospatial workflows ; rob
 Financial markets price localized weather shocks in core Brazilian producing states (**São Paulo, Paraná, Rio Grande do Sul, and Minas Gerais**) differently depending on crop physiology and spatial footprint:
 
 * **Arabica Coffee Futures (`KC=F`) — Intensive Margin Sensitivity:**  
-  Concentrated growing footprint ($\sim 20{,}000\text{ km}^2$; high moisture requirement of $\sim 2{,}200\text{ mm}$). Intense localized **Precipitation Flux** triggers bearish return adjustments of **$-0.09\text{pp}$ to $-0.16\text{pp}$** within $2\text{--}3$ trading days. Dryness shocks materialise immediately but persist for $1\text{--}2$ trading days.
+  Concentrated growing footprint ($\sim 20{,}000\text{ km}^2$; high moisture requirement of $\sim 2{,}200\text{ mm}$). Intense localized **Precipitation Flux** triggers bearish return adjustments of **$-0.09\text{pp}$ to $-0.16\text{pp}$** within $2\text{--}3$ trading days. **High and Intense VPD** triggers immediately spikes in arabica returns **$+0.08\text{pp}$ to $+0.14\text{pp}$**, spikes persist for $1\text{--}2$ trading days.
 
 <p align="center">
   <img src="area_of_effects/regression_results_data/arabica_regressions/onlyQuad2/PfUPmgd20Q2d20lag30.png" width="49%" alt="Arabica Coffee Futures IRF to Intense Precipitation Flux" />
