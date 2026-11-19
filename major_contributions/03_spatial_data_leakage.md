@@ -17,7 +17,7 @@ To disentangle **true transferable weather-yield responses** from **spatial over
 * **Preventing Out-of-Support Extrapolation:** Applied `scikit-learn` `k-Means` clustering on the 551-district climate feature matrix to partition India into discrete agro-climate zones—guaranteeing that every train/test fold samples all climate regimes without forcing tree splits into unseen climatic support.
 
 <p align="center">
-  <img src="hide_cant_seek/images/cluster_map.png" width="65%" alt="k-Means Agro-Climate Zones Across 551 Indian Districts" /><br>
+  <img src="/hide_cant_seek/images/cluster_map.png" width="65%" alt="k-Means Agro-Climate Zones Across 551 Indian Districts" /><br>
   <em>Agro-climate clusters derived via k-Means across 551 districts to prevent tree extrapolation across unseen climate regimes.</em>
 </p>
 
