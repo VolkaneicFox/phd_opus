@@ -41,6 +41,8 @@ for year in range(main_start_year, main_end_year + 1):
     target_df[f"{var}_is_high"] = (target_df[var] >= target_df[f"{var}_uqtl"]).astype(int)
     target_df[f"{var}_how_high"] = (target_df[var] - target_df[f"{var}_uqtl"]).clip(lower=0)
 ```
+</details>
+
 **Main Code Files:**
 1. [Constructing the Moving Thresholds for each County](../stranger_weather/make_anomalies.py)
 2. [Compressing the Daily Anomaly Data to Annual Measures](../stranger_weather/make_periodly_anomalies.py)
