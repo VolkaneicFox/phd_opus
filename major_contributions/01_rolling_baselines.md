@@ -4,7 +4,7 @@ Evaluating modern weather shocks against static historical climatologies conflat
 
 | Dimension | Germany (County Panel) | Central South America ($0.1^\circ$ Grid) |
 | :--- | :--- | :--- |
-| **Target Window** | $2005\text{--}2019$ (Seasonal) | $2005\text{--}2025$ (Daily) |
+| **Target Window** | $2005\text{--}2019$ (Seasonal and Monthly) | $2005\text{--}2025$ (Daily) |
 | **Reference Window** | $30\text{-year}$ rolling window, $5\text{-year}$ lag | $20\text{-year}$ rolling window, $5\text{-year}$ lag ($\pm 5\text{ days}$) |
 | **Compute Engine** | Vectorized `Pandas` | Out-of-core `Zarr` + `CuPy` (GPU VRAM) |
 | **Headline Finding** | Up to **$0.24\text{pp}$** annual growth loss from heat intensity | **$+0.11\text{pp}$** Soybean & **$+0.14\text{pp}$** Arabica return spikes |
