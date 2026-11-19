@@ -117,5 +117,6 @@ $$se = (X.T \cdot X)^{-1} \times \Omega \times (X.T \cdot X)^{-1}$$
   ```
 </details>
 
-List of full code:
-1. Complete Panel Estimation Pipeline: stranger_weather/panel_estimation.py
+---
+
+<sub>**Full Implementation:** 1. [Complete Panel Estimation Pipeline](../stranger_weather/panel_estimation.py)</sub>
