@@ -1,7 +1,7 @@
 <div style="max-width: 720px; margin: 0 auto; line-height: 1.65;">
 <h2 align="center">Chapter Abstracts</h2>
   
-<p align="center">Essays on Climate Econometrics, the Measurement of Local Evolving Weather Shocks, and Estimating the Resulting Marco- and Financial Fall Out</p>
+<p align="center">Essays on Climate Econometrics, the Measurement of Local Evolving Weather Shocks, and Estimating the Marco- and Financial-Fall Out</p>
 
 ---
 
