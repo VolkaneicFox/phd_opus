@@ -2,7 +2,8 @@
 
 ### 1. Stranger Weather: Estimating the Growth Shock from Historic and Structural Deviations in the Local Weather of 400 German Counties, 1995–2019
 **Dr. Oliver Holtemöller and Sukanya Mukherjee**  
-<small>Keywords: Panel Econometrics&ensp;·&ensp; Causal Inference&ensp;·&ensp; Spatial Standard Errors&ensp;·&ensp; Heat Shocks&ensp;·&ensp; Weather Fluctuations&ensp;·&ensp; Physical Climate Risk</small>
+
+<sub><sum>Keywords: Panel Econometrics&ensp;·&ensp; Causal Inference&ensp;·&ensp; Spatial Standard Errors&ensp;·&ensp; Heat Shocks&ensp;·&ensp; Weather Fluctuations&ensp;·&ensp; Physical Climate Risk</sum></sub>
 
 <details>
 <summary><b>Read Abstract</b></summary>
@@ -18,7 +19,7 @@ Semantics underneath the definitions of weather anomalies can be exploited to an
 ### 2. Hide and (can't) Seek: Spatial Leakage in Climate-Based Prediction of Rice Yields in Indian Farms using XGBoost with k-Means Clustering
 **Sukanya Mukherjee**  
 
-<small>Keywords:  &emsp; Applied ML&ensp;·&ensp; Spatial Data&ensp;·&ensp; Over-fitting&ensp;·&ensp; Agricultural Economics&ensp;·&ensp; SHAP</small>
+<sub><sum>Keywords:  &emsp; Applied ML&ensp;·&ensp; Spatial Data&ensp;·&ensp; Over-fitting&ensp;·&ensp; Agricultural Economics&ensp;·&ensp; SHAP</sum></sub>
 
 <details>
 <summary><b>Read Abstract</b></summary>
@@ -34,7 +35,7 @@ Using the 2018--19 NSSO farm (22,331 rice-growing farming households in 551 Indi
 ### 3. Area of Effects: Identifying Price Adjustments in Arabica Coffee and Soybean Futures Returns following Intense and Spatially Dispersed Local Weather Anomaly Shocks in Central South America
 **Sukanya Mukherjee** 
 
-<small>Keywords: &emsp;Multi-Variate Auto-Regressive Time Series&ensp;·&ensp;Stationarity&ensp;·&ensp;Physical Climate Risk&ensp;·&ensp;Local Hazards&ensp;·&ensp;Commodities Returns&ensp;·&ensp;Portfolio Risk Hedging</small>
+<sub><sum>Keywords: &emsp;Multi-Variate Auto-Regressive Time Series&ensp;·&ensp;Stationarity&ensp;·&ensp;Physical Climate Risk&ensp;·&ensp;Local Hazards&ensp;·&ensp;Commodities Returns&ensp;·&ensp;Portfolio Risk Hedging</sum></sub>
 
 <details>
 <summary><b>Read Abstract</b></summary>
