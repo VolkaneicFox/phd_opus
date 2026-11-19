@@ -1,4 +1,8 @@
 <div style="max-width: 720px; margin: 0 auto; line-height: 1.65;">
+<h2 align="center">Chapter Abstracts</h2>
+<p align="center"><sub><em>Essays on Climate Econometrics, the Measurement of Local Evolving Weather Shocks, and Estimating the Resulting Marco- and Financial Fall Out</em></sub></p>
+
+---
 
 ### 1. Stranger Weather: Estimating the Growth Shock from Historic and Structural Deviations in the Local Weather of 400 German Counties, 1995–2019
 **Dr. Oliver Holtemöller and Sukanya Mukherjee**  
