@@ -1,8 +1,11 @@
 <div style="max-width: 720px; margin: 0 auto; line-height: 1.65;">
-<h2 align="center">Chapter Abstracts</h2>
+<h2 align="center">PhD Thesis, Chapter Abstracts</h2>
   
 <p align="center">Essays on Climate Econometrics, the Measurement of Local Evolving Weather Shocks, and Estimating the Marco- and Financial-Fall Out</p>
 
+<p align="center"><sub><em>Leibniz Institute for Economic Research (IWH), Halle</em></sub></p>
+
+---
 ---
 
 ### 1. Stranger Weather: Estimating the Growth Shock from Historic and Structural Deviations in the Local Weather of 400 German Counties, 1995–2019
