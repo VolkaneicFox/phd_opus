@@ -1,25 +1,57 @@
-Three major findings:
+# Quantitative Physical Climate Risk & Spatial Econometrics
 
-Stranger Weather:
-Estimated growth loss from heat shocks and intra-annual temperature fluctuations depends on if temperature shocks are measured seasonally or monthly. 
-The estimated loss in the growth-rate of GDP per-capita is 0.11 percentage points per annum, when heat events are identified against seasonal threshold. 
-When we use monthly thresholds, the corresponding growth loss varies widely across constructions and is in the range 0.12--0.24. 
-The growth loss associated with a 1 standard deviation increase in within-year variability is 0.50 (seasonal) and 0.33 (monthly) percentage points.
-East and south-eastern counties most vulnerable to intra-annual temperature fluctuations:
-<insert image: stranger_weather/images/map_stdev_sn.png>
-South-west and south-eastern counties witnessed more heat shocks between 2005-2019, the central corridor remained relatively moderate
-<insert image: stranger_weather/images/map_tas_surprise_heat_sn.png>
+This repository houses the empirical pipelines, custom econometric estimators, and geospatial machine learning workflows behind my doctoral research—tracing how localized meteorological anomalies propagate from gridded climate reanalysis data into regional economic growth, farm-level yields, and daily agricultural futures returns.
 
-Hide and (can't) Seek: 
+---
 
-Robustness checks: FWL orthogonalisation against year and county dummies, quadratic time trends, conley standard errors, county clustered standard errors
+## Core Methodological Contributions
 
-Area of Effects:
-Financial markets are price adjusting against local shocks, based on crops, and to shocks in core Brazilian producing states: (S\~{a}o Paulo, Paran\'{a}, Rio Grande do Sul and Minas Gerais)
-Returns to arabica coffee futures (20,000km2 growing area, needs 2200mm of water, needs localised intense wet conditions):
-Bearish movements in arabica returns follows intense Precipitation Flux: -0.09pp to -0.16pp. Within two to three trading days and lasts one to two trading days.
-<insert the image: area_of_effects/regression_results_data/arabica_regressions/onlyQuad2/PfUPmgd20Q2d20lag30.png >
-Returns to soybean futures (150,000km2 growing area, needs 750mm of water, ergo wide-spread moderate rainfall is good):
-Bullish movements in soybean returns follows wide-spread Dry Shock:  +0.06pp to +0.11pp. Cumulative gains accumulate persistently across a thirty-day horizon
-<insert the image: area_of_effects/regression_results_data/soybean_regressions/VdUPshd20d20lag30.png, include in captions, ar2 and ar4 are Brazilian core growing regions, and results are robust to exclusion of each sub-region>
-Robustness checks: FWL orthogonalisation against month and year dummies, crop area weighted average of grid level climate to sub-regions (MAPSPAM prodn. area), KPSS and ADF test regressors, HAC with Bartlett Kernel
+1. **[Dynamic Rolling Baselines & Accelerated Warming](contributions/01_rolling_baselines.md)** — Isolating unanticipated weather shocks from secular warming using lagged 20- and 30-year rolling reference windows ($\pm 5\text{-day}$ calendar pooling on `Zarr` + `CuPy`).
+2. **[Spatially Robust Estimation & Grid Engineering] (link in progress)** — Custom Frisch–Waugh–Lovell (FWL) matrix projection, Conley spatial HAC standard errors, and `MAPSPAM` crop-area-weighted grid aggregation.
+3. **[Panel Econometrics for Macro-Climate Shocks](link in progress)** — Multi-dimensional fixed-effects identification across 400 German counties (`HYRAS-DE`, 1995–2019).
+4. **[Two-Stage Orthogonalized ARX Futures Pricing](link in progress)** — Partialing out financial/calendar controls before estimating 30-lag multi-quadrant ARX impulse responses for Arabica coffee and soybeans.
+5. **[Spatial Data Leakage in ML Yield Models](link in progress)* — Proving across 22,331 farms that random train-test splits inflate XGBoost out-of-sample $R^2$ gains by ~75% via spatial signature memorization.
+
+---
+
+## Major Empirical Findings
+
+### 1. Stranger Weather: Regional Growth Losses Across 400 German Counties
+* **Threshold Sensitivity:** Estimated annual GDP per capita growth loss from local heat shocks is **$0.11\text{pp}$** under seasonal thresholds and **$0.12\text{pp}\text{--}0.24\text{pp}$** under monthly thresholds.
+* **Intra-Annual Volatility:** A $1\text{ SD}$ increase in within-year temperature variability reduces annual regional growth by **$0.50\text{pp}$** (seasonal) and **$0.33\text{pp}$** (monthly).
+* **Econometric Robustness:** FWL orthogonalization against county and year fixed effects, county-specific quadratic time trends, Conley spatial HAC standard errors, and county-clustered standard errors.
+
+| Intra-Annual Temperature Volatility Vulnerability | Cumulative Heat Shock Exposure (2005–2019) |
+| :---: | :---: |
+| ![Intra-Annual Volatility Map](stranger_weather/images/map_stdev_sn.png) | ![Heat Shock Exposure Map](stranger_weather/images/map_tas_surprise_heat_sn.png) |
+| *East and south-eastern counties exhibit the highest vulnerability to intra-annual temperature fluctuations.* | *South-west and south-eastern counties experienced heightened heat shock frequency, while the central corridor remained moderate.* |
+
+---
+
+### 2. Hide and (can't) Seek: Spatial Data Leakage in XGBoost Yield Predictions
+> *Pipeline and diagnostic plots currently syncing from workstation — full spatial cross-validation benchmarks and SHAP attribution charts incoming.*
+
+* **Core Finding:** Across 22,331 Indian rice-growing households (551 districts), random household train-test splits inflate climate-driven out-of-sample $R^2$ gains by **~75%** ($+17.8\text{pp}$ vs. $+4.4\text{pp}$ under district-blind validation) due to spatial signature memorization.
+
+---
+
+### 3. Area of Effects: Asymmetric Price Adjustments in Agricultural Futures
+Financial markets price localized weather shocks in core Brazilian producing states (**São Paulo, Paraná, Rio Grande do Sul, and Minas Gerais**) differently depending on crop physiology and spatial footprint:
+
+* **Arabica Coffee Futures (`KC=F`) — Intensive Margin Sensitivity:**  
+  Concentrated growing footprint ($\sim 20{,}000\text{ km}^2$; high moisture requirement of $\sim 2{,}200\text{ mm}$). Intense localized **Precipitation Flux** triggers bearish return adjustments of **$-0.09\text{pp}$ to $-0.16\text{pp}$** within $2\text{--}3$ trading days, persisting for $1\text{--}2$ trading days.
+
+  <p align="center">
+    <img src="area_of_effects/regression_results_data/arabica_regressions/onlyQuad2/PfUPmgd20Q2d20lag30.png" width="75%" alt="Arabica Coffee Futures IRF to Intense Precipitation Flux" /><br>
+    <em>30-day impulse response of Arabica coffee futures returns to intense precipitation flux shocks in core Brazilian growing regions.</em>
+  </p>
+
+* **Soybean Futures (`ZS=F`) — Extensive Margin Sensitivity:**  
+  Expansive growing footprint ($\sim 150{,}000\text{ km}^2$; lower water threshold of $\sim 750\text{ mm}$). Spatially dispersed **Dryness Shocks (VPD)** drive bullish cumulative return gains of **$+0.06\text{pp}$ to $+0.11\text{pp}$** accumulating persistently over a 30-day horizon.
+
+  <p align="center">
+    <img src="area_of_effects/regression_results_data/soybean_regressions/VdUPshd20d20lag30.png" width="75%" alt="Soybean Futures Cumulative IRF to Widespread Dryness Shocks" /><br>
+    <em>Cumulative 30-day response of soybean futures returns to spatially dispersed dry shocks. Sub-regions <code>ar2</code> and <code>ar4</code> correspond to core Brazilian producing states; estimates remain robust to leave-one-sub-region-out exclusion.</em>
+  </p>
+
+* **Econometric & Geospatial Robustness:** FWL orthogonalization against month and year fixed effects, `MAPSPAM` production-area-weighted grid aggregation (`AgERA5` $0.1^\circ$), KPSS & ADF stationarity diagnostics on all regressors, and Newey–West / Bartlett kernel HAC covariance estimation.
