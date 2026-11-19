@@ -1,6 +1,10 @@
-# Quantitative Physical Climate Risk & Spatial Econometrics
+# Quantitative Physical Climate Risk | Spatial Econometrics | Causal Inference | Applied ML 
 
-This repository houses the empirical pipelines, custom econometric estimators, and geospatial machine learning workflows behind my doctoral research—tracing how localized meteorological anomalies propagate from gridded climate reanalysis data into regional economic growth, farm-level yields, and daily agricultural futures returns.
+### Phd Thesis: Essays in Climate Econometrics with an Emphasis on Local Weather Anomalies and the construction of Regional Contemporary Climate Thresholds
+
+I connect localized meteorological anomalies from gridded climate reanalysis data into macro-economic growth, agricultural farm yields and agricultural futures returns
+
+empirical pipelines ; custom econometric estimators ; geospatial workflows ; robust machine learning
 
 ---
 
