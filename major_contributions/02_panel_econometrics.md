@@ -48,7 +48,19 @@ def build_fwl_annihilator(df, absorb_fe="both", add_quad=True):
 ## 2. Standard Errors with Clustering, controlling for within-county auto-correlation
 
 *Assuming between county independence*
-$$ (X.T \times u ) \times (X.T \times u).T $$ 
+
+$$\Omega = sum_{i=1}^{400}[(X.T \times u ) \times (X.T \times u).T]_{X=X_i}$$
+$$se = (X.T \cdot X)^{-1} \times \Omega \times (X.T \cdot X)^{-1}$$
+
+## 3. Allowing spatial correlations between counties up to 250km apart (centroid distance)
+
+<details>
+```python
+  
+```
+</details>
+
+
 
     def _create_fixed_effect_dummies(self,absorb_fe="both",
                                  drop_unit=3257, drop_time=2012):
