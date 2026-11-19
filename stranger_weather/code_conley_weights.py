@@ -1,7 +1,7 @@
 import pandas as pd
 import geopandas as gpd
-
-shp_kreise=gpd.read_file("C://Users/nb/Desktop/paper_one/official_de_shapefiles.gk3.shape.ebenen/vg5000_ebenen_1231/VG5000_KRS.shp",crs=4326)
+drive_path=''
+shp_kreise=gpd.read_file(f"{drive_path}/official_de_shapefiles.gk3.shape.ebenen/vg5000_ebenen_1231/VG5000_KRS.shp",crs=4326)
 shp_kreise=shp_kreise[['ARS','NUTS','geometry']]
 shp_kreise['centroid']=shp_kreise['geometry'].centroid
 shp_kreise['centroid_deg']=shp_kreise.centroid.to_crs(epsg=4326)
@@ -25,4 +25,4 @@ euc_wts=pd.DataFrame(euc_wts.copy())
 kreise_list=list(distances.Kreise_Code.astype(int))
 euc_wts.index=kreise_list
 euc_wts.columns=kreise_list
-#euc_wts.to_csv("C:\\Users/nb/Desktop/paper_one/conley_weights.csv")
+#euc_wts.to_csv(f"{drive_path}/conley_weights.csv")
