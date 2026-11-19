@@ -11,10 +11,10 @@ empirical pipelines ; custom econometric estimators ; geospatial workflows ; rob
 ## Core Methodological Contributions
 
 1. **[Dynamic Rolling Baselines & Accelerated Warming](contributions/01_rolling_baselines.md)** — Isolating unanticipated weather shocks from secular warming using lagged 20- and 30-year rolling reference windows ($\pm 5\text{-day}$ calendar pooling on `Zarr` + `CuPy`).
-2. **[Panel Econometrics for Macro-Climate Shocks](link in progress)** — Multi-dimensional fixed-effects identification across 400 German counties (`HYRAS-DE`, 1995–2019).
-3. **[Spatially Robust Estimation] (link in progress)** — Custom Frisch–Waugh–Lovell (FWL) matrix projection, Conley spatial HAC standard errors
+2. **[Panel Econometrics for Macro-Climate Shocks](contributions/02_panel_econometrics.md)** — Multi-dimensional fixed-effects identification across 400 German counties (`HYRAS-DE`, 1995–2019). Custom Frisch–Waugh–Lovell (FWL) matrix projection, Conley spatial HAC standard errors
+3. **[Spatial Data Leakage in ML Yield Models](link in progress)** — Reviewing classical XGBoost application in agro-economics, and finding that random train-test splits inflate XGBoost out-of-sample $R^2$ gains by ~75% via spatial signature memorization.
 5. **[Two-Stage Orthogonalized ARX Futures Pricing](link in progress)** — Partialing out financial/calendar controls before estimating 30-lag multi-quadrant ARX impulse responses for Arabica coffee and soybeans.
-6. **[Spatial Data Leakage in ML Yield Models](link in progress)* — Proving across 22,331 farms that random train-test splits inflate XGBoost out-of-sample $R^2$ gains by ~75% via spatial signature memorization.
+6.  — Proving across 22,331 farms that random train-test splits inflate XGBoost out-of-sample $R^2$ gains by ~75% via spatial signature memorization.
 
 ---
 
