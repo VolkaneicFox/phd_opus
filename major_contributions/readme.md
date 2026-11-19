@@ -33,7 +33,7 @@ Using the 2018--19 NSSO farm (22,331 rice-growing farming households in 551 Indi
 
 ### 3. Area of Effects: Identifying Price Adjustments in Arabica Coffee and Soybean Futures Returns following Intense and Spatially Dispersed Local Weather Anomaly Shocks in Central South America
 **Sukanya Mukherjee**  
-*Keywords: Multi-Variate Auto-Regressive Time Series, Stationarity, Physical Climate Risk, Local Hazards, Commodities Returns*
+<small><em>Keywords:</em>&emsp;Multi-Variate Auto-Regressive Time Series&ensp;·&ensp;Stationarity&ensp;·&ensp;Physical Climate Risk&ensp;·&ensp;Local Hazards&ensp;·&ensp;Commodities Returns&ensp;·&ensp;Portfolio Risk Hedging</small>
 
 <details>
 <summary><b>Read Abstract</b></summary>
