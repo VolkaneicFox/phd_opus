@@ -54,188 +54,68 @@ $$se = (X.T \cdot X)^{-1} \times \Omega \times (X.T \cdot X)^{-1}$$
 
 ## 3. Allowing spatial correlations between counties up to 250km apart (centroid distance)
 
-<details>
-```python
+<details> 
+<summary><b> Calculating the Conley Weights</b></summary>
   
-```
+  ```python
+  shp_kreise=gpd.read_file(f"{drive_path}/official_de_shapefiles.gk3.shape.ebenen/vg5000_ebenen_1231/VG5000_KRS.shp",crs=4326)
+  shp_kreise=shp_kreise[['ARS','NUTS','geometry']]
+  shp_kreise['centroid']=shp_kreise['geometry'].centroid
+  shp_kreise['centroid_deg']=shp_kreise.centroid.to_crs(epsg=4326)
+  shp_kreise['lat_deg']=shp_kreise.centroid_deg.y
+  shp_kreise['lon_deg']=shp_kreise.centroid_deg.x
+  distances=shp_kreise[['ARS','lon_deg','lat_deg']]
+  distances=distances.rename(columns={'ARS':'Kreise_Code'})
+  distances['Kreise_Code']=distances['Kreise_Code'].astype(int)
+  x1_rows=distances['lon_deg'].values.reshape(1,-1)
+  x2_rows=distances['lon_deg'].values.reshape(-1,1)
+  x2_minus_x1=x2_rows-x1_rows
+  y1_rows=distances['lat_deg'].values.reshape(1,-1)
+  y2_rows=distances['lat_deg'].values.reshape(-1,1)
+  y2_minus_y1=y2_rows-y1_rows
+  euc_deg=np.sqrt((x2_minus_x1**2)+(y2_minus_y1**2))
+  euc_dist=euc_deg*111
+  
+  bound=250
+  euc_wts=np.maximum(1 - euc_dist / bound, 0)
+  euc_wts=pd.DataFrame(euc_wts.copy())
+  kreise_list=list(distances.Kreise_Code.astype(int))
+  euc_wts.index=kreise_list
+  euc_wts.columns=kreise_list
+  ```
+  
 </details>
 
+<details>
+<summary><b> Implementing Conley Weights in the Sandwich Covariance Matrix</b></summary>
 
+  ```python
+    elif cluster=="conley":
+              self.conley_wts=conley_wts
+              self.conley_wts=self.conley_wts.set_index('Unnamed: 0')
+              print("Standard Errors are Conley Standard Errors with bound of 250km")
+              all_obs=self.regdf.index
+              all_xu={}
+              for obs,(kreise,year) in enumerate(all_obs):
+                  xu_tilde=self.X_tilde[obs,:].reshape(-1,1) @ self.u_tilde[obs].reshape(1,1)
+                  all_xu[(int(kreise),int(year))]=xu_tilde
+              years=list(self.regdf.index.get_level_values('year'))
+              for item in all_xu:
+                  outer=all_xu[item]
+                  k1=item[0]
+                  temp_xu=list(self.conley_wts[(self.conley_wts[str(k1)]>0)].index)
+                  pos_xu = [(county, year) for county, year in all_xu.keys() if county in temp_xu]
+                  for jtem in pos_xu:
+                      k2=jtem[0]
+                      w_ij=self.conley_wts.loc[k1,str(k2)]
+                      self.cluster_sum=self.cluster_sum+(w_ij * outer@all_xu[jtem].T)
+          else:
+              print("Cluster can only take kreise, year or conley as inputs")
+          se_denominator = np.linalg.inv(self.X_tilde.T @ self.X_tilde)
+          self.beta_cov = se_denominator @ self.cluster_sum @ se_denominator
+          self.beta_se = np.sqrt(np.diag(self.beta_cov)).reshape(self.coef_n,1)
+  ```
+</details>
 
-    def _create_fixed_effect_dummies(self,absorb_fe="both",
-                                 drop_unit=3257, drop_time=2012):
-        drop_unit=int(drop_unit)
-        drop_time=int(drop_time)
-        drop_kreise=f"dummy_kr{drop_unit}"
-        drop_year=f"dummy_yr{drop_time}"
-        self.dummy_list=[]
-        self.dummiesdf=pd.DataFrame()
-        for kreise in self.kreise_list:
-            temp=pd.DataFrame()
-            for year in self.years_list:
-                if absorb_fe=="both":
-                    temp.loc[year,f"dummy_kr{int(kreise)}"]=1
-                    temp.loc[year,f"dummy_yr{int(year)}"]=1
-                    drop_cols=[drop_kreise,drop_year]
-                elif absorb_fe=="time":
-                    temp.loc[year,f"dummy_yr{int(year)}"]=1
-                    drop_cols=[drop_year]
-                elif absorb_fe=="unit":
-                    temp.loc[year,f"dummy_kr{int(kreise)}"]=1
-                    drop_cols=[drop_kreise]
-            temp=temp.reset_index().rename(columns={'index':'year'})
-            temp['Kreise_Code']=kreise
-            self.dummy_list.append(temp)
-        
-        self.dummy_df=pd.concat(self.dummy_list,axis=0)
-        self.dummy_df=self.dummy_df.drop(drop_cols,axis=1)
-        self.dummy_df=self.dummy_df.reset_index(drop=True).fillna(0)
-        
-        self.dummy_cols=[i for i in self.dummy_df.columns if 'dummy' in i]
-        dummy_len=len(self.dummy_cols)
-        print(f"Created {dummy_len} dummy columns.") ## should be 423+2 columns in total
-        self.dummy_df = self.dummy_df.set_index(['Kreise_Code', 'year'])
-        
-    def _create_county_trends(self, drop_unit=3257, add_quad=True, add_cube=False):
-        base = self.regdf[['Kreise_Code', 'year']].copy()
-    
-        # Time variables
-        t = base['year'] - base['year'].min() + 1
-        t2 = t ** 2
-        t3 = t ** 3
-        self.trend_cols = {}
-    
-        for kr in base['Kreise_Code'].unique():
-            if kr == drop_unit:
-                continue
-            col_t = f"{kr}_t"
-            self.trend_cols[col_t] = (base['Kreise_Code'] == kr).astype(int) * t
-            if add_quad:
-                col_t2 = f"{kr}_t2"
-                self.trend_cols[col_t2] = (base['Kreise_Code'] == kr).astype(int) * t2
-            if add_cube:
-                col_t3 = f"{kr}_t3"
-                self.trend_cols[col_t3] = (base['Kreise_Code'] == kr).astype(int) * t3
-            #self.trend_cols.extend([col_t, col_t2])
-
-        self.trends_df = pd.concat([base, pd.DataFrame(self.trend_cols)], axis=1)
-        
-        self.trend_cols=list(self.trend_cols.keys())
-        print(f"Created {len(self.trend_cols)} county time trend columns.")
-        self.trends_df = self.trends_df.set_index(['Kreise_Code', 'year'])
-        
-    def _create_custom_trends(self,trend_cols):
-        self.trend_cols=trend_cols
-        self.trends_df=self.maindf[['Kreise_Code','year']+trend_cols].set_index(['Kreise_Code','year'])
-        
-    def _projection_matrix(self):
-        self.y1,self.y2=self.regdf.year.min(),self.regdf.year.max()
-        
-        print(f'The years of observations = {int(self.y1)}-{int(self.y2)}')
-        print(f'The total number of counties = {int(self.regdf.Kreise_Code.nunique())}')
-        print(f'The total number of obervations = {int(self.regdf.shape[0])}')
-        self.years_list=list(range(self.y1,self.y2+1))
-        self.regdf = self.regdf.set_index(['Kreise_Code', 'year'])
-        print(f'The number of regression variables = {self.regdf.shape[1]}')
-        print(f'The number of trends = {self.trends_df.shape[1]}')
-        print(f'The number of dummies = {self.dummy_df.shape[1]}')
-    
-        self.regdf = (
-            self.regdf
-            .join(self.trends_df, how="left")
-            .join(self.dummy_df, how="left")
-        )
-
-        D_cols = self.trend_cols + self.dummy_cols
-        y_cols = [self.y_var]
-        const_col = np.ones((len(self.regdf), 1))
-        
-        self.D_mat = np.column_stack([self.regdf[col].to_numpy() for col in D_cols])
-        temp = np.linalg.inv(self.D_mat.T @ self.D_mat)
-        print("Checking if the D matrix is full rank ...")
-        self.d_rank = np.linalg.matrix_rank(self.D_mat)
-        self.N=self.regdf.shape[0]
-        self.freedom=self.N-len(self.x_vars)-self.d_rank
-        if self.d_rank == self.D_mat.shape[1]:
-            print('D matrix is at full rank. Proceed. uWu.')
-        else:
-           warnings.warn("D matrix is collinear: Projection may be invalid. uWu.", UserWarning)
-                    
-        P_D = self.D_mat @ temp @ self.D_mat.T
-        self.M_D = np.eye(P_D.shape[0]) - P_D
-        
-        self.X_mat = np.hstack([const_col, self.regdf[self.x_vars].to_numpy()])
-        self.y_mat = self.regdf[y_cols].to_numpy()
-
-        print(f'Shape of D Matrix = {self.D_mat.shape}')
-        print(f'Shape of X Matrix = {self.X_mat.shape}')
-
-Performing OLS with County-Clustered Standard Errors or Conley Standard Errors
-
- def _do_OLS(self):
-        
-        self.X_tilde = self.M_D @ self.X_mat
-        self.y_tilde = self.M_D @ self.y_mat
-        
-        self.beta_tilde = np.linalg.inv(self.X_tilde.T @ self.X_tilde) @ (self.X_tilde.T @ self.y_tilde)
-        
-        self.coef_n=self.beta_tilde.shape[0]
-        print(f"Estimated {self.coef_n} Coefficients from Regression.")
-        self.y_hat_tilde=self.X_tilde @ self.beta_tilde
-        
-        self.u_tilde = self.y_tilde - self.y_hat_tilde
-        
-    def _do_anova(self,cluster="kreise",conley_wts=[]):
-        self.cluster_sum = np.zeros((self.coef_n, self.coef_n))
-        if cluster=="kreise":
-            self.clusters=self.regdf.index.get_level_values('Kreise_Code')
-            print("Standard Errors are clustered at the county-level")
-            for kreise in self.kreise_list:
-                kreise_mask = kreise == self.clusters
-                x_cluster = self.X_tilde[kreise_mask,:] 
-                u_cluster = self.u_tilde[kreise_mask,:]
-                self.cluster_sum = self.cluster_sum + (x_cluster.T @ u_cluster)@((x_cluster.T @ u_cluster).T)
-        elif cluster=="year":
-            self.clusters=self.regdf.index.get_level_values('year')
-            print("Standard Errors are clustered at the year-level")
-            for year in self.years_list:
-                year_mask = year == self.clusters
-                x_cluster = self.X_tilde[year_mask,:] 
-                u_cluster = self.u_tilde[year_mask,:]
-                self.cluster_sum = self.cluster_sum + (x_cluster.T @ u_cluster)@((x_cluster.T @ u_cluster).T)
-        elif cluster=="conley":
-            self.conley_wts=conley_wts
-            self.conley_wts=self.conley_wts.set_index('Unnamed: 0')
-            print("Standard Errors are Conley Standard Errors with bound of 250km")
-            all_obs=self.regdf.index
-            all_xu={}
-            for obs,(kreise,year) in enumerate(all_obs):
-                xu_tilde=self.X_tilde[obs,:].reshape(-1,1) @ self.u_tilde[obs].reshape(1,1)
-                all_xu[(int(kreise),int(year))]=xu_tilde
-            years=list(self.regdf.index.get_level_values('year'))
-            for item in all_xu:
-                outer=all_xu[item]
-                k1=item[0]
-                temp_xu=list(self.conley_wts[(self.conley_wts[str(k1)]>0)].index)
-                pos_xu = [(county, year) for county, year in all_xu.keys() if county in temp_xu]
-                for jtem in pos_xu:
-                    k2=jtem[0]
-                    w_ij=self.conley_wts.loc[k1,str(k2)]
-                    self.cluster_sum=self.cluster_sum+(w_ij * outer@all_xu[jtem].T)
-        else:
-            print("Cluster can only take kreise, year or conley as inputs")
-        se_denominator = np.linalg.inv(self.X_tilde.T @ self.X_tilde)
-        self.beta_cov = se_denominator @ self.cluster_sum @ se_denominator
-        self.beta_se = np.sqrt(np.diag(self.beta_cov)).reshape(self.coef_n,1)
-        
-        self.t_stats = self.beta_tilde/self.beta_se
-        print(f'The degrees of freedom = {self.freedom}')
-        self.p_values = 2 * t.sf(np.abs(self.t_stats), self.freedom)
-        
-        self.y_fe = np.round(self.y_mat - self.y_tilde,6)
-        self.SSR=np.sum(self.u_tilde**2)
-        self.SST_tilde=np.sum(self.y_tilde**2)
-        self.within_r2 = 1- (self.SSR / self.SST_tilde)
-        self.SST=np.sum((self.y_mat - np.mean(self.y_mat))**2)
-        temp=(self.N-1)/ self.freedom
-        self.adjusted_r2 = 1- (temp*self.SSR/self.SST)
+List of full code:
+1. Complete Panel Estimation Pipeline: stranger_weather/panel_estimation.py
