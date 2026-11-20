@@ -63,6 +63,7 @@ Because $C_{k,ij}(t)$ is computed separately for **binary tail indicators** ($\m
 | **High PF** (`> 95th pct`) | Intense precipitation / flooding | Excess PF ($%$ above threshold) | Cropland area share ($%$) in breach |
 | **Low PF** (`< 5th pct`) | Precipitation deficit | — | Cropland area share ($%$) in breach |
 
+<sub> PF events are derived from wet days</sub> 
 ---
 
 ## 4. Historical Disaster Backtests (Empirical Validation)
@@ -70,18 +71,18 @@ Because $C_{k,ij}(t)$ is computed separately for **binary tail indicators** ($\m
 After Frisch–Waugh–Lovell (FWL) orthogonalization against year and month fixed effects, the resulting sub-regional anomaly series accurately isolate major historical meteorological extremes across Central South America:
 
 ### Atmospheric Dryness Shocks (`High VPD`)
-* **2009 Argentine Drought:** Captured as an acute spike in excess VPD reaching **$50%$ above** the upper 95th-percentile reference threshold.
-* **2014 Amazon Drought:** Detected across nearly **$95%$ of the regional cropland footprint** simultaneously exceeding its upper VPD threshold.
-* **2019–2020 La Plata Basin Drought:** Registered as **$38%\text{--}40%$ excess VPD** above threshold across multiple consecutive days.
-* **January 2022 Heatwave & Drought:** Isolated a sharp VPD surge corresponding to regional temperatures exceeding **$45^\circ\text{C}$**.
-* **2023 Pan-Regional Drought:** Captured widespread dryness across all Central South American quadrants, with sub-regional VPD rising **$30%$ above** threshold baselines.
+* **2009 Argentine Drought:** Captured as an acute spike in excess VPD reaching **50% above** the upper 95th-percentile reference threshold.
+* **2014 Amazon Drought:** Detected across nearly **95% of the regional cropland footprint** simultaneously exceeding its upper VPD threshold.
+* **2019–2020 La Plata Basin Drought:** Registered as **38% -- 40% excess VPD** above threshold across multiple consecutive days.
+* **January 2022 Heatwave & Drought:** Isolated a sharp VPD surge corresponding to regional temperatures exceeding **$45^\circ\text{C}**.
+* **2023 Pan-Regional Drought:** Captured widespread dryness across all Central South American quadrants, with sub-regional VPD rising **30% above** threshold baselines.
 
 ### Precipitation Flux Shocks (`High PF`)
 * **2014–2017 El Niño–Southern Oscillation (ENSO) Cycle:**
   * Orthogonalized PF series flags a pronounced spike in **2014**, marking the onset of historic flooding across Paraguay, Bolivia, and Brazil—most sharply captured in **Quadrant 4** across Arabica-growing areas—before transitioning into the **2015–2016 El Niño** drought regime.
   * Across soybean-producing regions, the **January 2015** precipitation deficit emerges as the single most severe dry anomaly of the multi-year ENSO episode.
-* **September 2023 Northern Brazil Floods:** Detected as sub-regional precipitation flux rising **$12%$ above** historical upper thresholds.
-* **2025 Western Amazon / Andean Floods (Quadrant 3 — Peru & Bolivia):** Captures nearly **$40%$ excess PF** over upper reference thresholds in June 2025 following the severe regional flooding in April 2025.
+* **September 2023 Northern Brazil Floods:** Detected as sub-regional precipitation flux rising **12% above** historical upper thresholds.
+* **2025 Western Amazon / Andean Floods (Quadrant 3 — Peru & Bolivia):** Captures nearly **40% excess PF** over upper reference thresholds in June 2025 following the severe regional flooding in April 2025.
 
 ---
 
