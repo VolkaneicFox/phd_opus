@@ -63,7 +63,7 @@ Because $C_{k,ij}(t)$ is computed separately for **binary tail indicators** ($\m
 | **High PF** (`> 95th pct`) | Intense precipitation / flooding | Excess PF ($%$ above threshold) | Cropland area share ($%$) in breach |
 | **Low PF** (`< 5th pct`) | Precipitation deficit | — | Cropland area share ($%$) in breach |
 
-<sub> PF events are derived from wet days</sub> 
+<emp> PF events are derived from wet days</emp> 
 ---
 
 ## 4. Historical Disaster Backtests (Empirical Validation)
