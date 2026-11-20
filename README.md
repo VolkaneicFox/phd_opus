@@ -34,7 +34,6 @@ I connect localized meteorological anomalies from gridded climate reanalysis dat
 ---
 
 ### 2. Hide and (can't) Seek: Spatial Data Leakage in XGBoost Yield Predictions
-> *Pipeline and diagnostic plots currently syncing from workstation — full spatial cross-validation benchmarks and SHAP attribution charts incoming.*
 
 * **Core Finding:** Across 22,331 Indian rice-growing households (551 districts), random household train-test splits inflate climate-driven out-of-sample $R^2$ gains by **~75%** ($+17.8\text{pp}$ vs. $+4.4\text{pp}$ under district-blind validation) due to spatial signature memorization.
 
