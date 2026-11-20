@@ -60,10 +60,10 @@ Because $C_{k,ij}(t)$ is computed separately for **binary tail indicators** ($\m
 | Weather Variable | Physical Hazard | Intensive Margin (Severity) | Extensive Margin (Spatial Exposure) |
 | :--- | :--- | :---: | :---: |
 | **High VPD** (`> 95th pct`) | Atmospheric dryness / heat stress | Excess VPD ($%$ above threshold) | Cropland area share ($%$) in breach |
-| **High PF** (`> 95th pct`) | Intense precipitation / flooding | Excess PF ($%$ above threshold) | Cropland area share ($%$) in breach |
+| **High PF**[^1] (`> 95th pct`) | Intense precipitation / flooding | Excess PF ($%$ above threshold) | Cropland area share ($%$) in breach |
 | **Low PF** (`< 5th pct`) | Precipitation deficit | — | Cropland area share ($%$) in breach |
 
-<emp> PF events are derived from wet days</emp> 
+[^1]: PF events are derived from wet days.
 ---
 
 ## 4. Historical Disaster Backtests (Empirical Validation)
