@@ -96,7 +96,7 @@ $$\hat{\boldsymbol{\beta}}_c = \sum_{j=1}^{c} \hat{\boldsymbol{\beta}}_j \qquad 
 
 The model is estimated via OLS with **Newey–West (Bartlett kernel) Heteroskedasticity and Autocorrelation Consistent (HAC)** standard errors on $\hat{\epsilon}_t$, capturing serial dependence across overlapping trading windows.
 
---
+---
 
 [Code on Climate Time Series](area_of_effects/code_blocks/orthogonalising_weather_data.py)
 
