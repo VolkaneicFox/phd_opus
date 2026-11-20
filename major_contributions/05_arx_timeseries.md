@@ -13,6 +13,7 @@ All financial variables are transformed into daily percentage log-returns ($r_t 
 
 ### 2. Calendar Fixed-Effects Annihilation & $\text{ARX}(10)$ Filtering
 Before introducing weather shocks, we strip out seasonal harvesting cycles, macroeconomic regimes, and short-term financial autocorrelation in two sequential projections:
+
 $$\tilde{R}_{1t} = \sum_{\ell = 1}^{10} \sum_{j = 1}^{6} \beta_{j\ell}\,\tilde{R}_{j,t-\ell} + u_t, \qquad t = 11, \dots, T$$
 
 The OLS estimator is:
