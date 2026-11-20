@@ -74,7 +74,7 @@ After Frisch–Waugh–Lovell (FWL) orthogonalization against year and month fix
 * **2009 Argentine Drought:** Captured as an acute spike in excess VPD reaching **50% above** the upper 95th-percentile reference threshold.
 * **2014 Amazon Drought:** Detected across nearly **95% of the regional cropland footprint** simultaneously exceeding its upper VPD threshold.
 * **2019–2020 La Plata Basin Drought:** Registered as **38% -- 40% excess VPD** above threshold across multiple consecutive days.
-* **January 2022 Heatwave & Drought:** Isolated a sharp VPD surge corresponding to regional temperatures exceeding **$45^\circ\text{C}**.
+* **January 2022 Heatwave & Drought:** Isolated a sharp VPD surge corresponding to regional temperatures exceeding **$45^\circ\text{C}$**.
 * **2023 Pan-Regional Drought:** Captured widespread dryness across all Central South American quadrants, with sub-regional VPD rising **30% above** threshold baselines.
 
 ### Precipitation Flux Shocks (`High PF`)
