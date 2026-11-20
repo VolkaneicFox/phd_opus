@@ -1,6 +1,6 @@
 # Physical Climate Risk | Spatial Econometrics | Causal Inference
 
-### Phd Thesis: Essays on Climate Econometrics, the Measurement of Local Evolving Weather Shocks, and Estimating the Marco- and Financial-Fallout of Anomalous Weather
+### Phd Thesis: Essays on Climate Econometrics, the Measurement of Local Evolving Weather Shocks, and Estimating the Macro- and Financial-Fallout of Anomalous Weather
 *[Link to Chapter Abstracts](major_contributions/readme.md)*
 
 I connect localized meteorological anomalies from gridded climate reanalysis data into macro-economic growth, agricultural farm yields and agricultural futures returns
