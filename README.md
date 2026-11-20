@@ -1,6 +1,6 @@
 # Physical Climate Risk | Spatial Econometrics | Causal Inference | Applied ML 
 
-### Phd Thesis: Essays in Climate Econometrics with an Emphasis on Local Weather Anomalies and the construction of Regional Contemporary Climate Thresholds
+### Phd Thesis: Essays on Climate Econometrics, the Measurement of Local Evolving Weather Shocks, and Estimating the Marco- and Financial-Fallout of Anomalous Weather
 
 I connect localized meteorological anomalies from gridded climate reanalysis data into macro-economic growth, agricultural farm yields and agricultural futures returns
 
