@@ -1,4 +1,4 @@
-# Quantitative Physical Climate Risk | Spatial Econometrics | Causal Inference | Applied ML 
+# Physical Climate Risk | Spatial Econometrics | Causal Inference | Applied ML 
 
 ### Phd Thesis: Essays in Climate Econometrics with an Emphasis on Local Weather Anomalies and the construction of Regional Contemporary Climate Thresholds
 
