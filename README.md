@@ -1,10 +1,11 @@
-# Physical Climate Risk | Spatial Econometrics | Causal Inference | Applied ML 
+# Physical Climate Risk | Spatial Econometrics | Causal Inference
 
 ### Phd Thesis: Essays on Climate Econometrics, the Measurement of Local Evolving Weather Shocks, and Estimating the Marco- and Financial-Fallout of Anomalous Weather
+*[Chapter Abstracts:](major_contributions/readme.md)*
 
 I connect localized meteorological anomalies from gridded climate reanalysis data into macro-economic growth, agricultural farm yields and agricultural futures returns
 
-empirical pipelines ; custom econometric estimators ; geospatial workflows ; robust machine learning
+`Empirical Pipelines` | `Custom Econometric Estimators` | `Geospatial Workflows` | `Robust Machine Learning`
 
 ---
 
@@ -14,8 +15,7 @@ empirical pipelines ; custom econometric estimators ; geospatial workflows ; rob
 2. **[Panel Econometrics for Macro-Climate Shocks](major_contributions/02_panel_econometrics.md)** — Multi-dimensional fixed-effects identification across 400 German counties (`HYRAS-DE`, 1995–2019). Custom Frisch–Waugh–Lovell (FWL) matrix projection, Conley spatial HAC standard errors
 3. **[Spatial Data Leakage in ML Yield Models](major_contributions/03_spatial_data_leakage.md)** — Reviewing classical XGBoost application in agro-economics, and finding that random train-test splits inflate XGBoost out-of-sample $R^2$ gains by ~75% via spatial signature memorization.
 4. **[Grids to Sub-regions with Empirical Backtesting](major_contributions/04_spatial_engineering.md)** — Taking the product of cropland area weights and grid-level climate anomalies yields daily sub-regional shock series, validated against headline historical droughts and floods across Central South America.
-5. **[Two-Stage Orthogonalized ARX Futures Pricing](link in progress)** — Partialing out financial/calendar controls before estimating 30-lag multi-quadrant ARX impulse responses for Arabica coffee and soybeans.
-6.  — Proving across 22,331 farms that random train-test splits inflate XGBoost out-of-sample $R^2$ gains by ~75% via spatial signature memorization.
+5. **[Two-Stage Orthogonalized ARX Futures Pricing](major_contributions/05_arx_timeseries.md)** — Partialing out financial/calendar controls before estimating 30-lag multi-quadrant ARX impulse responses for Arabica coffee and soybeans.
 
 ---
 
