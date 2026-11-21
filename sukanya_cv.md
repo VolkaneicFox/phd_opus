@@ -25,6 +25,7 @@
 </p>
 
 <p allign="justify"
+  
 * **Commodities Futures Price Adjustments to Local Weather Shocks in Central South America**  
   Linked sub-regional intense precipitation to `-0.09 pp` to `-0.16 pp` drops in arabica coffee futures returns, and intense dryness to `+0.06 pp` to `+0.11 pp` spikes in soybean futures returns.
   * *Commercial Utility:* Commodity desks and physical supply teams can use anomalies calibrated to shifting local baselines to condition hedges by asset, region, and shock type.
