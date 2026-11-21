@@ -3,7 +3,7 @@
     <td width="1000" valign="top">
       <h1>Sukanya Mukherjee</h1>
       <strong>Econometrics & ML | Quantitative Climate & Hazard Risk | Python</strong><br />
-      📧 sukanyam92@gmail.com<br />
+      📧 <a href="mailto:sukanyam92@gmail.com">sukanyam92@gmail.com</a><br />
       💻 <a href="https://github.com/VolkaneicFox/phd_opus/">github.com/VolkaneicFox/phd_opus</a><br />
       🌐 English (Native) · German (in progress)
     </td>
@@ -19,7 +19,7 @@
 
 **Leibniz Institute for Economic Research (IWH)** — *Halle (Saale), DE*  
 **PhD Candidate in Quantitative Climate Economics** | *Oct 2022 – exp. Mar 2027*  
-*Supervisors:* [Prof. Dr. Oliver Holtemöller](oliver.holtemoeller@iwh-halle.de) & [Prof. Dr. Martin Quaas](martin.quaas@idiv.de)
+*Supervisors:* <a href="mailto:oliver.holtemoeller@iwh-halle.de">Dr. Oliver Holtemöller</a> & <a href="mailto:martin.quaas@idiv.de">Dr. Martin Quaas
 
 * **Commodities Futures Price Adjustments to Local Weather Shocks in Central South America**  
   Linked sub-regional intense precipitation to `-0.09 pp` to `-0.16 pp` drops in arabica coffee futures returns, and intense dryness to `+0.06 pp` to `+0.11 pp` spikes in soybean futures returns.
