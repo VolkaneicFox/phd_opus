@@ -3,8 +3,6 @@
 ### Phd Thesis: Essays on Climate Econometrics, the Measurement of Local Evolving Weather Shocks, and Estimating the Macro- and Financial-Fallout of Anomalous Weather
 *[Link to Chapter Abstracts](major_contributions/readme.md)*
 *[Link to CV](sukanya_cv.md)*
-
-<div align="justify>
   
 I connect localized meteorological anomalies from gridded climate reanalysis data into macro-economic growth, agricultural farm yields and commodities futures returns
 
@@ -12,6 +10,7 @@ I connect localized meteorological anomalies from gridded climate reanalysis dat
 
 ---
 
+<div align="justify>
   
 ## Core Methodological Contributions
 
