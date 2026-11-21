@@ -9,7 +9,8 @@ I connect localized meteorological anomalies from gridded climate reanalysis dat
 `Empirical Pipelines` | `Custom Econometric Estimators` | `Geospatial Workflows` | `Robust Machine Learning`
 
 ---
-
+<div align="justify>
+  
 ## Core Methodological Contributions
 
 1. **[Dynamic Rolling Baselines & Accelerated Warming](major_contributions/01_rolling_baselines.md)** — Isolating unanticipated weather shocks from secular warming using lagged 20- and 30-year rolling reference windows ($\pm 5\text{-day}$ calendar pooling on `Zarr` + `CuPy`).
@@ -72,3 +73,6 @@ Financial markets price localized weather shocks in core Brazilian producing sta
   </p>
 
 * **Econometric & Geospatial Robustness:** FWL orthogonalization against month and year fixed effects, `MAPSPAM` production-area-weighted grid aggregation (`AgERA5` $0.1^\circ$), KPSS & ADF stationarity diagnostics on all regressors, and Newey–West / Bartlett kernel HAC covariance estimation.
+
+---
+</div>
