@@ -16,7 +16,8 @@
 ## Research Experience
 
 ## Research Experience
-<p align="justify">
+<p align="justify"
+  
 **Leibniz Institute for Economic Research (IWH)** — *Halle (Saale), DE*  
 **PhD Candidate in Quantitative Climate Economics** | *Oct 2022 – exp. Mar 2027*  
 *Supervisors:* Prof. Dr. Oliver Holtemöller & Prof. Dr. Martin Quaas
