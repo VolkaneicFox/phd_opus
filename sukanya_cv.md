@@ -8,7 +8,7 @@
 
 <br clear="right" />
 
----
+
 
 ## Research Experience
 
