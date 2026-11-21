@@ -1,6 +1,6 @@
 <table>
   <tr>
-    <td width="90%" valign="top">
+    <td width="78%" valign="top">
       <h1>Sukanya Mukherjee</h1>
       <strong>Econometrics & ML | Quantitative Climate & Hazard Risk | Python</strong><br />
       📧 sukanyam92@gmail.com<br />
@@ -8,7 +8,7 @@
       🌐 English (Native) · German (B1, B2 in progress)
     </td>
     <td width="22%" align="right" valign="middle">
-      <img src="assets/IMG-20240208-WA0002(1).jpg" alt="Sukanya Mukherjee" width="135" />
+      <img src="assets/IMG-20240208-WA0002(1).jpg" alt="Sukanya Mukherjee" width="150" />
     </td>
   </tr>
 </table>
