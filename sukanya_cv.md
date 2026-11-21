@@ -1,6 +1,6 @@
 <table>
   <tr>
-    <td width="78%" valign="top">
+    <td width="90%" valign="top">
       <h1>Sukanya Mukherjee</h1>
       <strong>Econometrics & ML | Quantitative Climate & Hazard Risk | Python</strong><br />
       📧 sukanyam92@gmail.com<br />
