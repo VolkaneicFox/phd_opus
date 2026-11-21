@@ -1,3 +1,5 @@
+<div align="justify>
+
 # Physical Climate Risk | Spatial Econometrics | Causal Inference
 
 ### Phd Thesis: Essays on Climate Econometrics, the Measurement of Local Evolving Weather Shocks, and Estimating the Macro- and Financial-Fallout of Anomalous Weather
@@ -9,7 +11,7 @@ I connect localized meteorological anomalies from gridded climate reanalysis dat
 `Empirical Pipelines` | `Custom Econometric Estimators` | `Geospatial Workflows` | `Robust Machine Learning`
 
 ---
-<div align="justify>
+
   
 ## Core Methodological Contributions
 
