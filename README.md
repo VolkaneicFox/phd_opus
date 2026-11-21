@@ -1,5 +1,6 @@
 <div align="justify>
 
+
 # Physical Climate Risk | Spatial Econometrics | Causal Inference
 
 ### Phd Thesis: Essays on Climate Econometrics, the Measurement of Local Evolving Weather Shocks, and Estimating the Macro- and Financial-Fallout of Anomalous Weather
