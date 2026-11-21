@@ -4,7 +4,7 @@
 *[Link to Chapter Abstracts](major_contributions/readme.md)*
 *[Link to CV](sukanya_cv.md)*
 
-I connect localized meteorological anomalies from gridded climate reanalysis data into macro-economic growth, agricultural farm yields and agricultural futures returns
+I connect localized meteorological anomalies from gridded climate reanalysis data into macro-economic growth, agricultural farm yields and commodities futures returns
 
 `Empirical Pipelines` | `Custom Econometric Estimators` | `Geospatial Workflows` | `Robust Machine Learning`
 
