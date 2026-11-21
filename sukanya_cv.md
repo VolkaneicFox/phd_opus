@@ -19,7 +19,7 @@
 
 **Leibniz Institute for Economic Research (IWH)** — *Halle (Saale), DE*  
 **PhD Candidate in Quantitative Climate Economics** | *Oct 2022 – exp. Mar 2027*  
-*Supervisors:* Prof. Dr. Oliver Holtemöller & Prof. Dr. Martin Quaas
+*Supervisors:* [Prof. Dr. Oliver Holtemöller](oliver.holtemoeller@iwh-halle.de) & [Prof. Dr. Martin Quaas](martin.quaas@idiv.de)
 
 * **Commodities Futures Price Adjustments to Local Weather Shocks in Central South America**  
   Linked sub-regional intense precipitation to `-0.09 pp` to `-0.16 pp` drops in arabica coffee futures returns, and intense dryness to `+0.06 pp` to `+0.11 pp` spikes in soybean futures returns.
