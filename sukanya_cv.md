@@ -1,31 +1,26 @@
-<table>
+<table width="100%">
   <tr>
-    <td width="78%" valign="top">
+    <td width="1000" valign="top">
       <h1>Sukanya Mukherjee</h1>
       <strong>Econometrics & ML | Quantitative Climate & Hazard Risk | Python</strong><br />
       📧 sukanyam92@gmail.com<br />
       💻 <a href="https://github.com/VolkaneicFox/phd_opus/">github.com/VolkaneicFox/phd_opus</a><br />
       🌐 English (Native) · German (B1, B2 in progress)
     </td>
-    <td width="22%" align="right" valign="middle">
+    <td width="160" align="right" valign="middle">
       <img src="assets/IMG-20240208-WA0002(1).jpg" alt="Sukanya Mukherjee" width="150" />
     </td>
   </tr>
 </table>
 
-## Research Experience
+<div align="justify">
 
 ## Research Experience
-<p align="justify"
-  
+
 **Leibniz Institute for Economic Research (IWH)** — *Halle (Saale), DE*  
 **PhD Candidate in Quantitative Climate Economics** | *Oct 2022 – exp. Mar 2027*  
 *Supervisors:* Prof. Dr. Oliver Holtemöller & Prof. Dr. Martin Quaas
 
-</p>
-
-<p allign="justify"
-  
 * **Commodities Futures Price Adjustments to Local Weather Shocks in Central South America**  
   Linked sub-regional intense precipitation to `-0.09 pp` to `-0.16 pp` drops in arabica coffee futures returns, and intense dryness to `+0.06 pp` to `+0.11 pp` spikes in soybean futures returns.
   * *Commercial Utility:* Commodity desks and physical supply teams can use anomalies calibrated to shifting local baselines to condition hedges by asset, region, and shock type.
@@ -40,8 +35,6 @@
   Estimated `0.11 pp` – `0.24 pp` loss in annual GDP per capita growth of German counties from local heat shocks, and `0.33 pp` – `0.50 pp` loss from within-year temperature variation.
   * *Commercial Utility:* Risk, pricing, and underwriting teams can build regional exposure matrices across climate shock regimes to quantify localized physical and operational risk.
   * *Pipeline:* FWL Projection, Conley Standard Errors, Panel Econometrics, Causal Inference, Python
-</p>
----
 
 ## Education
 
@@ -57,21 +50,17 @@ Panel Data · Time-Series Analysis · Industrial Organization
 **B.Sc. in Economics (Honors), Mathematics & Statistics** (Top 10%) | *Jun 2011 – Jul 2014*  
 Non-Linear Optimization · Bayesian Statistical Inference · Corporate Finance
 
----
-
 ## Certifications
 
 * **The Institute of Actuaries of India** *(2017 – 2018)* — Probability & Mathematical Statistics (Sep 2017) · Financial Economics (Mar 2018) · Business Economics (Mar 2018)
 * **IBM Data Science Professional Certificate** *(2021)*
-
----
 
 ## Conferences & Technical Stack
 
 * **Conferences:** NAERE 2024 · DORS 2024 · UC Riverside 2024 · RCEA 2026 (Madrid) · IAAE 2026 (Lisbon) · WCERE 2026 (Lisbon)
 * **Technical Stack:** Python (Pandas, GeoPandas, NumPy, Scikit-learn, CuPy, Xarray, Dask, Statsmodels), Geospatial/GIS (NetCDF, Copernicus ERA5/CDS API), Causal Inference, A/B Testing, SQL *(cert. in progress)*, Linux/Bash, Git
 
----
+</div>
 
 <p align="right">
   <em>&ldquo;It&rsquo;s an aesthetic judgment as much as anything,&rdquo; he [Bill Haydon] explained, looking up.<br />
