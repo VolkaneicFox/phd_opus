@@ -10,7 +10,7 @@
 
 
 ## Research Experience
-
+<p align="justify">
 **Leibniz Institute for Economic Research (IWH)** — *Halle (Saale), DE*  
 **PhD Candidate in Quantitative Climate Economics** | *Oct 2022 – exp. Mar 2027*  
 *Supervisors:* Prof. Dr. Oliver Holtemöller & Prof. Dr. Martin Quaas
@@ -29,7 +29,7 @@
   Estimated `0.11 pp` – `0.24 pp` loss in annual GDP per capita growth of German counties from local heat shocks, and `0.33 pp` – `0.50 pp` loss from within-year temperature variation.
   * *Commercial Utility:* Risk, pricing, and underwriting teams can build regional exposure matrices across climate shock regimes to quantify localized physical and operational risk.
   * *Pipeline:* FWL Projection, Conley Standard Errors, Panel Econometrics, Causal Inference, Python
-
+</p>
 ---
 
 ## Education
