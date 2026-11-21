@@ -5,7 +5,7 @@
       <strong>Econometrics & ML | Quantitative Climate & Hazard Risk | Python</strong><br />
       📧 sukanyam92@gmail.com<br />
       💻 <a href="https://github.com/VolkaneicFox/phd_opus/">github.com/VolkaneicFox/phd_opus</a><br />
-      🌐 English (Native) · German (B1, B2 in progress)
+      🌐 English (Native) · German (in progress)
     </td>
     <td width="160" align="right" valign="middle">
       <img src="assets/IMG-20240208-WA0002(1).jpg" alt="Sukanya Mukherjee" width="150" />
