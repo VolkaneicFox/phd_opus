@@ -62,6 +62,8 @@ Non-Linear Optimization · Bayesian Statistical Inference · Corporate Finance
 
 </div>
 
+---
+
 <p align="right">
   <em>&ldquo;It&rsquo;s an aesthetic judgment as much as anything,&rdquo; he [Bill Haydon] explained, looking up.<br />
   &ldquo;Partly a moral one, of course.&rdquo;</em><br />
