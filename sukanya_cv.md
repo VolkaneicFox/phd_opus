@@ -15,6 +15,8 @@
 
 <div align="justify">
 
+<sub>*[Link to Landing Page](/README.md)*</sub>
+
 ## Research Experience
 
 **Leibniz Institute for Economic Research (IWH)** — *Halle (Saale), DE*  
