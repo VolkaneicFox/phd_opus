@@ -103,4 +103,6 @@ def extract_breach_events_batched(obs_zarr, thresh_zarr, batch_size=1000):
 2. [Transforming Grid Anomalies to Sub-regional Time Series](../area_of_effects/code_blocks/grid_level_anomaly_shock.py)
    * [Helper Functions for Sub-regional Aggregation](../area_of_effects/code_blocks/grid_to_quadrants.py)
 
+---
 
+<sub>*[Link to Landing Page](/README.md)*</sub>
