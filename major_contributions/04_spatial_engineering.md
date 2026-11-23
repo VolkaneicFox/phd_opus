@@ -88,3 +88,6 @@ After Frisch–Waugh–Lovell (FWL) orthogonalization against year and month fix
 
 <sub>**Full Implementation:** 1. [Sub-Regional Shock Aggregation Pipeline](area_of_effects/code_blocks/grid_to_quadrants.py)</sub>
 
+---
+
+<sub>*[Link to Landing Page](/README.md)*</sub>
