@@ -90,3 +90,8 @@ To prove climate features act as <b>spatial identifiers</b> under random splits 
 ```
 
 </details>
+
+---
+
+<sub>*[Link to Landing Page](/README.md)*</sub>
+
