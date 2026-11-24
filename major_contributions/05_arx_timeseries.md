@@ -100,7 +100,7 @@ The model is estimated via OLS with **Newey–West (Bartlett kernel) Heteroskeda
 
 [Code on Climate Time Series](area_of_effects/code_blocks/orthogonalising_weather_data.py)
 
-[Code on Time Series Regression]( area_of_effects/code_blocks/arx30_timeseries.py)
+[Code on Time Series Regression](area_of_effects/code_blocks/arx30_timeseries.py)
 
 ---
 
